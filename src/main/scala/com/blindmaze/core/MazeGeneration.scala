@@ -71,11 +71,11 @@ object MazeGeneration {
       val (playerX, playerY) = playerManager.getPlayerPosition(i)
       if (grid.cells(playerY)(playerX).state == CellState.Path) {
         if ((x == playerX && y == playerY) || grid.cells(y)(x).state == CellState.Path) {
-          return true
+          return true // Direktes Zurückgeben von true, ohne return
         }
       }
     }
-    false
+    false // Wenn keine passende Bedingung erfüllt ist, gib false zurück
   }
 
   // Methode zur Sicherstellung, dass das Ziel mit allen Pfaden verbunden ist
