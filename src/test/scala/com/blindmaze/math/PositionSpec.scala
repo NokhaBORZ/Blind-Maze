@@ -1,16 +1,16 @@
 package com.blindmaze.math
 
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.matchers.should.Matchers
+import org.scalatest.matchers.should.Matchers._
 
-class PositionSpec extends AnyWordSpec with Matchers {
+class PositionSpec extends AnyWordSpec {
 
     "A Position" when {
         "moving up" should {
             "move correctly" in {
                 val startPos = Position(2, 2)
                 val newPos = startPos.move(Direction.Up)
-                newPos shouldEqual Position(2, 1)
+                newPos shouldBe Position(2, 1)
             }
         }
 
@@ -18,7 +18,7 @@ class PositionSpec extends AnyWordSpec with Matchers {
             "move correctly" in {
                 val startPos = Position(2, 2)
                 val newPos = startPos.move(Direction.Down)
-                newPos shouldEqual Position(2, 3)
+                newPos shouldBe Position(2, 3)
             }
         }
 
@@ -26,7 +26,7 @@ class PositionSpec extends AnyWordSpec with Matchers {
             "move correctly" in {
                 val startPos = Position(2, 2)
                 val newPos = startPos.move(Direction.Left)
-                newPos shouldEqual Position(1, 2)
+                newPos shouldBe Position(1, 2)
             }
         }
 
@@ -34,7 +34,7 @@ class PositionSpec extends AnyWordSpec with Matchers {
             "move correctly" in {
                 val startPos = Position(2, 2)
                 val newPos = startPos.move(Direction.Right)
-                newPos shouldEqual Position(3, 2)
+                newPos shouldBe Position(3, 2)
             }
         }
 
@@ -42,7 +42,7 @@ class PositionSpec extends AnyWordSpec with Matchers {
             "not change position" in {
                 val startPos = Position(2, 2)
                 val newPos = startPos.move(null)
-                newPos shouldEqual startPos
+                newPos shouldBe startPos
             }
         }
     }
