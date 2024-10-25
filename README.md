@@ -1,8 +1,5 @@
-## sbt project compiled with Scala 3
+## Blind Maze project in Scala
 
 ### Usage
 
-This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
-
-For more information on the sbt-dotty plugin, see the
-[scala3-example-project](https://github.com/scala/scala3-example-project/blob/main/README.md).
+"Blind Maze" is a game where two players navigate an invisible maze to reach the center first. Players cannot see paths and must guess their way through, moving one step at a time. Along the way, they may encounter items that provide advantages or help them avoid obstacles. The first player to successfully find their way to the center wins.
