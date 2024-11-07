@@ -1,6 +1,6 @@
-package com.blindmaze.model
+package de.htwg.se.blindmaze.model
 
-import com.blindmaze.model.Player
+import de.htwg.se.blindmaze.model.Player
 
 // Abstrakte Klasse für Items
 abstract class Item(val name: String) {
