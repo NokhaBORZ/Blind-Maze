@@ -7,6 +7,7 @@ lazy val root = project
     version := "0.1.1-SNAPSHOT",
 
     scalaVersion := scala3Version,
+    mainClass in Compile := Some("de.htwg.se.blindmaze.Main"),
 
     libraryDependencies += "org.scalameta" %% "munit" % "1.0.0" % Test,
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.10",
