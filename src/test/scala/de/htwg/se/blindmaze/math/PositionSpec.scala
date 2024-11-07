@@ -1,7 +1,8 @@
-package com.blindmaze.math
+package de.htwg.se.blindmaze.math
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
+import de.htwg.se.blindmaze.math.{Position, Direction}
 
 class PositionSpec extends AnyWordSpec {
 

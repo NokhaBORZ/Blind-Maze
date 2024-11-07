@@ -1,4 +1,4 @@
-package com.blindmaze.utils
+package de.htwg.se.blindmaze.utils
 
 // Hilfsfunktionen können hier definiert werden
 object Helper {
