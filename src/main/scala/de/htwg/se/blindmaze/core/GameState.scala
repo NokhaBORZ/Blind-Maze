@@ -1,7 +1,6 @@
 package de.htwg.se.blindmaze.core
 
 sealed trait GameState
-
 object GameState {
   case object Running extends GameState
   case object GameOver extends GameState

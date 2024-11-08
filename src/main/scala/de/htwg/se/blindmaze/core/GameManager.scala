@@ -1,102 +1,64 @@
 package de.htwg.se.blindmaze.core
 
-import de.htwg.se.blindmaze.model.{Grid, Player}
+import scala.io.AnsiColor.{GREEN, RED, RESET}
+import de.htwg.se.blindmaze.utils.{InputHandler, DisplayRenderer, Input}
+import de.htwg.se.blindmaze.model.Player
 import de.htwg.se.blindmaze.math.Position
-import de.htwg.se.blindmaze.core.GameState
-import de.htwg.se.blindmaze.utils.Display
-import de.htwg.se.blindmaze.math.Direction
 
 class GameManager() {
 
-  private val grid: Grid = Grid.defaultGrid() // Initialize default grid
-  private var gameState: GameState = GameState.Running
-  private var players: List[Player] = List()  // Initialize empty player list
-  private var moveHistory: Map[String, List[Position]] = Map()
+  var gameState: GameState = GameState.Running
+  val initialPlayer = Player("P", Position.Zero)
+  var grid = Grid.DefaultGrid(initialPlayer, 10, 10)
 
-  /** Initializes the game by setting up players and starting the game loop. */
-  def initGame(): Boolean = {
-    println(s"\n${GREEN}Welcome to Blind-Maze${RESET}\n")
-    val numPlayersOpt = try {
-      Some(scala.io.StdIn.readLine("Enter number of players (2-4): ").toInt)
-    } catch {
-      case _: NumberFormatException => None
-    }
+  def run(): Boolean = {
+    println(s"${GREEN}The Game Blind Maze!${RESET}")
+    println("Find your way through the maze to the exit.")
+    println("w,a,s,d for movement.")
+    println("Use 'q' to quit.")
+    println("")
+    update(initialPlayer)
+    gameState == GameState.GameOver
+  }
 
-    numPlayersOpt match {
-      case Some(numPlayers) if numPlayers >= 2 && numPlayers <= 4 =>
-        players = (1 to numPlayers).map(i => Player(s"Player$i", Position(0, i))).toList
-        moveHistory = players.map(player => player.id -> List()).toMap
-        runGame()
-        true
-      case _ =>
-        println("Invalid number of players. Please enter a number between 2 and 4.")
-        false
+  def update(currentPlayer: Player): Unit = {
+    println(DisplayRenderer.render(grid))
+
+    val input = InputHandler.parseInput(scala.io.StdIn.readLine())
+    val updatedPlayer = handleInput(input, currentPlayer)
+
+    if (gameState == GameState.Running) {
+      update(updatedPlayer)
     }
   }
 
-  private def runGame(): Unit = {
-    import scala.util.control.Breaks._
-    breakable {
-      while (gameState == GameState.Running) {
-        players.foreach { player =>
-          DisplayRenderer.render(grid)
-          if (handleInput(player) && checkGameState(player)) break() // Exit if game ends
-        }
-      }
-    }
-  }
-
-  private def handleInput(player: Player): Boolean = {
-    val input = InputHandler.handleInput(
-      scala.io.StdIn.readLine(s"Enter move for ${player.id}: ")
-    )
+  def handleInput(input: Option[Input], currentPlayer: Player): Player = {
     input match {
-      case Input.Move(direction) =>
-        grid.movePlayer(player, direction) match {
-          case Some(newPosition) =>
-            moveHistory = moveHistory.updated(
-              player.id,
-              moveHistory(player.id) :+ newPosition
-            )
-            if (checkForRelic(newPosition, player)) checkGameState(player)
-            true
-          case None =>
-            println("Move out of bounds.")
-            false
+      case Some(Input.Move(direction)) =>
+        val oldPosition = currentPlayer.position
+        val newPosition = currentPlayer.position.move(direction)
+        if (newPosition.isWithinBounds(grid.width, grid.height)) {
+          val updatedPlayer = currentPlayer.copy(position =
+            newPosition
+          ) // Create a new player instance
+          grid = grid.updatePlayerPosition(
+            updatedPlayer,
+            oldPosition
+          ) // Update the grid with the new player position
+          updatedPlayer // Return the updated player
+        } else {
+          println(s"${RED}Cannot move out of bounds${RESET}")
+          currentPlayer // Return the current player without change
         }
-      case Input.Quit =>
+
+      case Some(Input.Quit) =>
         gameState = GameState.GameOver
-        false
+        println(s"${RED}Game over!${RESET}")
+        currentPlayer // Return the current player as quitting stops the game
+
+      case None =>
+        println("Invalid input!")
+        currentPlayer // Return the current player without change
     }
-  }
-
-  private def checkForRelic(position: Position, player: Player): Boolean = {
-    grid.getTile(position) match {
-      case Some(tile) =>
-        tile.content match {
-          case Some(relic: Relic) =>
-            relic.use(player)
-            tile.content = None
-            true
-          case _ => false
-        }
-      case None => false
-    }
-  }
-
-  private def checkGameState(player: Player): Boolean = {
-    if (allRelicsCollected()) {
-      gameState = GameState.Victory
-      println(s"Congratulations, ${player.id}! You've collected all relics and won!")
-      true
-    } else if (moveHistory(player.id).contains(player.position)) {
-      gameState = GameState.GameOver
-      println(s"${player.id} lost! Caught by an echo!")
-      true
-    } else false
-  }
-
-  private def allRelicsCollected(): Boolean = {
-    !grid.tiles.exists(_.content.exists(_.isInstanceOf[Relic]))
   }
 }
