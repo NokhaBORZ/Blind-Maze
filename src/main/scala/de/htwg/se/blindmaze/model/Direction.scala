@@ -1,4 +1,4 @@
-package de.htwg.se.blindmaze.math
+package de.htwg.se.blindmaze.model
 
 sealed trait Direction
 object Direction {

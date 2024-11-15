@@ -1,4 +1,4 @@
-package de.htwg.se.blindmaze.math
+package de.htwg.se.blindmaze.model
 
 case class Position(x: Int, y: Int) {
   def +(that: Position): Position = Position(this.x + that.x, this.y + that.y)
