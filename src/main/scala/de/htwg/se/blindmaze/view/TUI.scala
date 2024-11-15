@@ -1,5 +1,6 @@
 package de.htwg.se.blindmaze.view
 
+import scala.io.AnsiColor.{GREEN, RED, RESET}
 import de.htwg.se.blindmaze.utils.Observer
 import de.htwg.se.blindmaze.controller.Controller
 import de.htwg.se.blindmaze.model.Direction
@@ -9,7 +10,10 @@ class TUI (controller: Controller) extends Observer {
   def update(): Unit = {
     println(controller.showGrid)
     println(controller.gameManager.getCurrent)
-    println("Enter command: n: new game, w: up, s: down, a: left, d: right, q: quit")
+    println(" ")
+    println("w,a,s,d for movement.")
+    println("Use 'q' to quit.")
+    println("")
   }
 
   def processInputLine(input: String): Unit = {
