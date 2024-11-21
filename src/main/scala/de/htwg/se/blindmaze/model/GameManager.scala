@@ -36,6 +36,6 @@ class GameManager(
   }
 
   def getCurrent: String = {
-    if(current == 0) "Player 1" else "Player 2"
+    if(current == 1) "Player 1" else "Player 2"
   }
 }
