@@ -29,6 +29,8 @@ object Renderer{
         case TileContent.Wall       => " # "
         case TileContent.Victory => " V "
         case TileContent.OutOfBounds => " X "
+        case TileContent.Trap => " T "
+        case TileContent.ChestTile(chest) => " C "
     }
   }
 }

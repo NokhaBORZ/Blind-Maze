@@ -15,18 +15,15 @@ class GameManager(
   }
 
   def moveNext(direction: Direction): GameManager = {
-    state match {
-      case GameState.Running =>
-        val newGrid = grid.movePlayer(current, direction)
-        if (newGrid == grid) {
-          println("Not valid move")
-          this
-        } else {
-          new GameManager(state, newGrid, if (current == 1) 2 else 1)
-        }
-
-      case _ =>
-        this
+    if(state == GameState.Running) {
+      val (newGrid, collision) = grid.movePlayer(current, direction)
+      if (collision.isDefined) {
+        new GameManager(state, newGrid, current) // Current player waits for one round
+      } else {
+        new GameManager(state, newGrid, if(current == 1) 2 else 1)
+      }
+    } else {
+      this
     }
   }
 

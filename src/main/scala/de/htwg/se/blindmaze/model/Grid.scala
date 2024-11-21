@@ -30,18 +30,25 @@ case class Grid(tiles: Vector[Vector[Tile]]) {
 
   def size: Int = tiles.size
 
-  def movePlayer(playerId: Int, direction: Direction): Grid = {
-  val playerPosition = getPlayer(Player(playerId))
-  val newPosition = playerPosition.move(direction)
-  println(newPosition)
-  
+  def movePlayer(playerId: Int, direction: Direction): (Grid, Option[Int]) = {
+    val playerPosition = getPlayer(Player(playerId))
+    val newPosition = playerPosition.move(direction)
 
-  if (inBounds(newPosition)) {
-    set(playerPosition, Tile(TileContent.Empty))
-    .set(newPosition, Tile(TileContent.Player(playerId)))
-  } else {
-    this
-  }
+    if (inBounds(newPosition)) {
+      val targetTile = get(newPosition)
+      targetTile.content match {
+        case TileContent.Empty =>
+          (set(playerPosition, Tile(TileContent.Empty))
+            .set(newPosition, Tile(TileContent.Player(playerId))), None)
+        case TileContent.Player(otherId) =>
+          // Collision with another player
+          (this, Some(otherId))
+        case _ =>
+          (this, None)
+      }
+    } else {
+      (this, None)
+    }
   }
 
   private def getPlayer(player: Player): Position = {
