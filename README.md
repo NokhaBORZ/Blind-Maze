@@ -1,3 +1,8 @@
+![Static Badge](https://img.shields.io/badge/Blind_Maze-443599?style=flat-square)
+
+[![Coverage Status](https://coveralls.io/repos/github/NokhaBORZ/Blind-Maze/badge.svg?branch=main)](https://coveralls.io/github/NokhaBORZ/Blind-Maze?branch=main)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/ffaf2f936cf746dfb411efe75c7a1195)](https://app.codacy.com/gh/NokhaBORZ/Blind-Maze/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 ## Blind Maze project in Scala
 
 ### Usage
