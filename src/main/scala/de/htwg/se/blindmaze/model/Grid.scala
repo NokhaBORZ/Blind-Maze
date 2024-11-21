@@ -51,7 +51,7 @@ case class Grid(tiles: Vector[Vector[Tile]]) {
     }
   }
 
-  private def getPlayer(player: Player): Position = {
+  def getPlayer(player: Player): Position = {
   tiles.zipWithIndex.flatMap { case (row, y) =>
     row.zipWithIndex.collect {
     case (tile, x) if tile.content == TileContent.Player(player.id) => Position(x, y)
@@ -59,7 +59,7 @@ case class Grid(tiles: Vector[Vector[Tile]]) {
   }.headOption.getOrElse(Position(-1, -1))
   }
 
-  private def inBounds(position: Position): Boolean = {
+  def inBounds(position: Position): Boolean = {
     position.x >= 0 && position.y >= 0 && position.x < size && position.y < size
   }
 
