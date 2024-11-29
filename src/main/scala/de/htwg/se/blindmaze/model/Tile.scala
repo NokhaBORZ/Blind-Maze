@@ -1,5 +1,9 @@
 package de.htwg.se.blindmaze.model
 
+import de.htwg.se.blindmaze.model.items.Item
+
+//factory pattern
+
 case class Chest(item : Item)
 
 sealed trait TileContent

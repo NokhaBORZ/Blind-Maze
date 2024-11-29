@@ -1,6 +1,7 @@
 package de.htwg.se.blindmaze.model
 
 sealed trait GameState
+//Singleton Pattern
 object GameState {
   case object Running extends GameState
   case object NotStarted extends GameState

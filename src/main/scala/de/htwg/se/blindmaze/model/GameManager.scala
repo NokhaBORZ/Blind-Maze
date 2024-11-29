@@ -1,6 +1,7 @@
 package de.htwg.se.blindmaze.model
 
 import de.htwg.se.blindmaze.model.{GameState, Grid}
+import de.htwg.se.blindmaze.model.generator.WallGenerator
 
 class GameManager(
   val state: GameState = GameState.NotStarted,
@@ -8,10 +9,12 @@ class GameManager(
   val current: Int = 1
 ) {
 
+  private val wallGenerator = new WallGenerator()
+
   def getState: GameState = state
 
   def startGame(): GameManager = {
-    new GameManager(GameState.Running, grid.createGrid(List(Player(1), Player(2))), current)
+    new GameManager(GameState.Running, wallGenerator.setupGrid(new Grid(10)), current)
   }
 
   def moveNext(direction: Direction): GameManager = {
