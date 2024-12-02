@@ -3,6 +3,8 @@ package de.htwg.se.blindmaze.model
 import de.htwg.se.blindmaze.model.tiles.{Tile, TileFactory, TileContent}
 import de.htwg.se.blindmaze.utils.Renderer
 
+//Flyweight pattern
+
 case class Grid(tiles: Vector[Vector[Tile]]) {
 
   def this(size: Int) = this(Vector.fill(size, size)(TileFactory.getTile(TileContent.Empty)))

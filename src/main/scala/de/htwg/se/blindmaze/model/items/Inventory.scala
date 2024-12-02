@@ -4,7 +4,7 @@ import de.htwg.se.blindmaze.model.managers.GameManager
 
 //Composite Pattern
 case class Inventory(name: String, description: String = "") extends Item {
-  private val items = scala.collection.mutable.ListBuffer[Item]()
+   val items = scala.collection.mutable.ListBuffer[Item]()
 
     def addItem(item: Item): Unit = {
         items += item
