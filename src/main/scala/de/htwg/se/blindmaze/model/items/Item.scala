@@ -1,7 +1,7 @@
 // Item.scala
 package de.htwg.se.blindmaze.model.items
 
-import de.htwg.se.blindmaze.model.GameManager
+import de.htwg.se.blindmaze.model.managers.GameManager
 
 /**
  * Enumeration representing the rarity of an item.

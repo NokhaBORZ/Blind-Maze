@@ -1,6 +1,6 @@
 package de.htwg.se.blindmaze.model.items
 
-import de.htwg.se.blindmaze.model.GameManager
+import de.htwg.se.blindmaze.model.managers.GameManager
 
 //Composite Pattern
 case class Inventory(name: String, description: String = "") extends Item {

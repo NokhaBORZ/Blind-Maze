@@ -1,6 +1,6 @@
 package de.htwg.se.blindmaze.model.items
 
-import de.htwg.se.blindmaze.model.GameManager
+import de.htwg.se.blindmaze.model.managers.GameManager
 
 case class Map(name: String, description: String = "") extends Item {
   override def use(gameManager: GameManager): GameManager = ???
