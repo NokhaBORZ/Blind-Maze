@@ -1,14 +1,14 @@
 package de.htwg.se.blindmaze.controller
 
-import de.htwg.se.blindmaze.model.{GameManager, Player}
-import de.htwg.se.blindmaze.model.Direction
+import de.htwg.se.blindmaze.model.managers.GameManager
 import de.htwg.se.blindmaze.utils.Observable
-
+import de.htwg.se.blindmaze.model.commands.Command
+import de.htwg.se.blindmaze.model.Direction
 
 class Controller(var gameManager: GameManager) extends Observable {
 
   def startGame(size: Int = 11): Unit = {
-    gameManager = gameManager.startGame()
+    gameManager = gameManager.startGame
     notifyObservers()
   }
 
@@ -17,7 +17,9 @@ class Controller(var gameManager: GameManager) extends Observable {
     notifyObservers()
   }
 
-  def showGrid: String =
-    gameManager.showGrid()
-    
+  def showGrid: String = gameManager.showGrid
+
+  def executeCommand(command: Command): Unit = {
+    command.execute(this)
+  }
 }

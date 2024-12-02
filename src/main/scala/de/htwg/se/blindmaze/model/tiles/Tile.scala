@@ -1,4 +1,10 @@
-package de.htwg.se.blindmaze.model
+package de.htwg.se.blindmaze.model.tiles
+
+import de.htwg.se.blindmaze.model.items.Item
+import de.htwg.se.blindmaze.model.Player
+
+
+//Flyweight Pattern
 
 case class Chest(item : Item)
 
@@ -21,7 +27,10 @@ case class Tile(content: TileContent) {
     case _                 => false
   }
 
-  def hasPlayer: Boolean = content == TileContent.Player
+  def hasPlayer: Boolean = content match {
+    case TileContent.Player(_) => true
+    case _ => false
+  }
 
   def isPlayer(player: Player): Boolean = content match {
     case TileContent.Player(id) => id == player.id
@@ -37,11 +46,3 @@ case class Tile(content: TileContent) {
 
 }
 
-object Tile {
-  def EmptyTile: Tile = Tile(TileContent.Empty)
-  def WallTile: Tile = Tile(TileContent.Wall)
-  def PlayerTile(player: Player): Tile = Tile(TileContent.Player(player.id))
-  def VictoryTile: Tile = Tile(TileContent.Victory)
-  def TrapTile: Tile = Tile(TileContent.Trap)
-  def ChestTile(item: Item): Tile = Tile(TileContent.ChestTile(Chest(item)))
-}

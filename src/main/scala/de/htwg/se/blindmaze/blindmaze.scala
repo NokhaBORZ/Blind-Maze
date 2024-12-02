@@ -2,7 +2,7 @@ package de.htwg.se.blindmaze
 
 import scala.io.AnsiColor.{GREEN, RED, RESET}
 import de.htwg.se.blindmaze.controller.Controller
-import de.htwg.se.blindmaze.model.GameManager
+import de.htwg.se.blindmaze.model.managers.GameManager
 import de.htwg.se.blindmaze.view.TUI
 
 @main def blindmaze(): Unit = {

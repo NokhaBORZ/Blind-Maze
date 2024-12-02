@@ -1,6 +1,7 @@
 package de.htwg.se.blindmaze.utils
 
-import de.htwg.se.blindmaze.model.{Grid, Position, Tile, TileContent}
+import de.htwg.se.blindmaze.model.{Grid, Position}
+import de.htwg.se.blindmaze.model.tiles.{Tile, TileContent}
 
 object Renderer{
   def render(grid: Grid): String = {
