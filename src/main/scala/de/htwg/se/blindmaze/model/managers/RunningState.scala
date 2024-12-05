@@ -11,6 +11,11 @@ case class RunningState(
 
 ) extends GameManager {
   override def startGame: GameManager = this
+
+  override def quitGame: GameManager = {
+    println("Quitting the game...")
+    NotStartedState()
+  }
   override def moveNext(direction: Direction): GameManager = {
     // logic for moving player
     if (!grid.canMove(current, direction)) {
@@ -26,4 +31,6 @@ case class RunningState(
   }
 
   override def state: GameState = GameState.Running
+
+  override def invalidCommand: GameManager = this
 }

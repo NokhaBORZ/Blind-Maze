@@ -12,7 +12,14 @@ case class NotStartedState(
   override def startGame: GameManager = {
     RunningState (grid.createGrid(List(Player(1), Player(2))), current)
   }
+  override def quitGame: GameManager = this
+   
+  override def resetGame: GameManager = {
+    NotStartedState(new Grid(10), 1)
+  }
   override def moveNext(direction: Direction): GameManager = this
   override def showGrid: String = "Game not running"
   override def state: GameState = GameState.NotStarted
+
+  override def invalidCommand: GameManager = this
 }

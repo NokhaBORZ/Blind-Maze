@@ -12,7 +12,9 @@ trait GameManager {
   val grid: Grid
   val current: Int
   def startGame: GameManager
+  def quitGame: GameManager
   def moveNext(direction: Direction): GameManager
+  def invalidCommand: GameManager
   def showGrid: String
 
   def state : GameState

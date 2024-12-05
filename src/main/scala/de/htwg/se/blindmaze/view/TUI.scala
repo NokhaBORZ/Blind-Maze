@@ -19,12 +19,12 @@ class TUI (controller: Controller) extends Observer {
 
   def processInputLine(input: String): Unit = {
     val command: Command = input match {
-      case "q" => new QuitGameCommand
-      case "n" => new StartGameCommand
-      case "w" => new MoveUpCommand
-      case "s" => new MoveDownCommand
-      case "a" => new MoveLeftCommand
-      case "d" => new MoveRightCommand
+      case "q" => QuitGameCommand
+      case "n" => StartGameCommand
+      case "w" => MoveCommand(Direction.Up)
+      case "s" => MoveCommand(Direction.Down)
+      case "a" => MoveCommand(Direction.Left)
+      case "d" => MoveCommand(Direction.Right)
       case _ => new InvalidCommand
     }
     controller.executeCommand(command)

@@ -2,51 +2,37 @@ package de.htwg.se.blindmaze.model.commands
 
 import de.htwg.se.blindmaze.controller.Controller
 import de.htwg.se.blindmaze.model.Direction
+import de.htwg.se.blindmaze.model.managers.GameManager
+import scala.util.Try
 
-//Command Pattern
+// Command Pattern
 
 trait Command {
-  def execute(controller: Controller): Unit
+  def execute(gameManager: GameManager): Try[GameManager]
+  def undo(gameManager: GameManager): Try[GameManager] = Try(gameManager)
+  def redo(gameManager: GameManager): Try[GameManager] = Try(gameManager)
 }
 
-class MoveUpCommand extends Command {
-  override def execute(controller: Controller): Unit = {
-    controller.movePlayer(Direction.Up)
+case class MoveCommand(direction: Direction) extends Command {
+  override def execute(gameManager: GameManager): Try[GameManager] = Try {
+    gameManager.moveNext(direction)
   }
 }
 
-class MoveDownCommand extends Command {
-  override def execute(controller: Controller): Unit = {
-    controller.movePlayer(Direction.Down)
+case class StartGameCommand() extends Command {
+  override def execute(gameManager: GameManager): Try[GameManager] = Try {
+    gameManager.startGame
   }
 }
 
-class MoveLeftCommand extends Command {
-  override def execute(controller: Controller): Unit = {
-    controller.movePlayer(Direction.Left)
+case class QuitGameCommand() extends Command {
+  override def execute(gameManager: GameManager): Try[GameManager] = Try {
+    gameManager.quitGame
   }
 }
 
-class MoveRightCommand extends Command {
-  override def execute(controller: Controller): Unit = {
-    controller.movePlayer(Direction.Right)
-  }
-}
-
-class StartGameCommand extends Command {
-  override def execute(controller: Controller): Unit = {
-    controller.startGame()
-  }
-}
-
-class QuitGameCommand extends Command {
-  override def execute(controller: Controller): Unit = {
-    println("Quit game")
-  }
-}
-
-class InvalidCommand extends Command {
-  override def execute(controller: Controller): Unit = {
-    println("Invalid input")
+case class InvalidCommand() extends Command {
+  override def execute(gameManager: GameManager): Try[GameManager] = Try {
+    gameManager.invalidCommand
   }
 }
