@@ -38,4 +38,6 @@ case class RunningState(
   override def state: GameState = GameState.Running
 
   override def invalidCommand: GameManager = this
+
+  override def changeCurrent: GameManager = copy(current = if (current == 1) 2 else 1)
 }

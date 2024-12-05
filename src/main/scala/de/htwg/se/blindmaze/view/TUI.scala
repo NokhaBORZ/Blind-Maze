@@ -25,6 +25,7 @@ class TUI (controller: Controller) extends Observer {
       case "s" => MoveCommand(Direction.Down)
       case "a" => MoveCommand(Direction.Left)
       case "d" => MoveCommand(Direction.Right)
+      case "u" => UndoCommand()
       case _ => new InvalidCommand
     }
     controller.executeCommand(command)

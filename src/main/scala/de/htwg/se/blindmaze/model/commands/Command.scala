@@ -8,7 +8,7 @@ import scala.util.Try
 // Command Pattern
 
 trait Command {
-  def execute(gameManager: GameManager): Try[GameManager]
+  def execute(gameManager: GameManager): Try[GameManager] = Try(gameManager) // Default execute does nothing
   def undo(gameManager: GameManager): Try[GameManager] = Try(gameManager) // Default undo does nothing
   def redo(gameManager: GameManager): Try[GameManager] = execute(gameManager) // Default redo re-executes
 }
@@ -20,8 +20,7 @@ case class MoveCommand(direction: Direction) extends Command {
 
   override def undo(gameManager: GameManager): Try[GameManager] = {
     Try {
-
-      gameManager.moveNext(Direction.opposite(direction)) // Undo by moving in the opposite direction
+      gameManager.changeCurrent.moveNext(Direction.opposite(direction)).changeCurrent
     }
   }
 }
@@ -40,4 +39,7 @@ case class QuitGameCommand() extends Command {
 
 case class InvalidCommand() extends Command {
   override def execute(gameManager: GameManager): Try[GameManager] = Try(gameManager)
+}
+
+case class UndoCommand() extends Command {
 }

@@ -17,6 +17,7 @@ trait GameManager {
   def invalidCommand: GameManager
   def showGrid: String
   def resetGame: GameManager
+  def changeCurrent: GameManager = this
 
   def state : GameState
 }
