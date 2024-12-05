@@ -16,6 +16,7 @@ trait GameManager {
   def moveNext(direction: Direction): GameManager
   def invalidCommand: GameManager
   def showGrid: String
+  def resetGame: GameManager
 
   def state : GameState
 }

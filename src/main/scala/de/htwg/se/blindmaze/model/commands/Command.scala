@@ -9,13 +9,20 @@ import scala.util.Try
 
 trait Command {
   def execute(gameManager: GameManager): Try[GameManager]
-  def undo(gameManager: GameManager): Try[GameManager] = Try(gameManager)
-  def redo(gameManager: GameManager): Try[GameManager] = Try(gameManager)
+  def undo(gameManager: GameManager): Try[GameManager] = Try(gameManager) // Default undo does nothing
+  def redo(gameManager: GameManager): Try[GameManager] = execute(gameManager) // Default redo re-executes
 }
 
 case class MoveCommand(direction: Direction) extends Command {
   override def execute(gameManager: GameManager): Try[GameManager] = Try {
     gameManager.moveNext(direction)
+  }
+
+  override def undo(gameManager: GameManager): Try[GameManager] = {
+    Try {
+
+      gameManager.moveNext(Direction.opposite(direction)) // Undo by moving in the opposite direction
+    }
   }
 }
 
@@ -32,7 +39,5 @@ case class QuitGameCommand() extends Command {
 }
 
 case class InvalidCommand() extends Command {
-  override def execute(gameManager: GameManager): Try[GameManager] = Try {
-    gameManager.invalidCommand
-  }
+  override def execute(gameManager: GameManager): Try[GameManager] = Try(gameManager)
 }

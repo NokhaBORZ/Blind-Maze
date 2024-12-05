@@ -16,6 +16,11 @@ case class RunningState(
     println("Quitting the game...")
     NotStartedState()
   }
+
+  override def resetGame: GameManager = {
+    copy (grid.createGrid(List(Player(1), Player(2))), current)
+  }
+
   override def moveNext(direction: Direction): GameManager = {
     // logic for moving player
     if (!grid.canMove(current, direction)) {

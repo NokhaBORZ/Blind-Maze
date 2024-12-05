@@ -7,4 +7,12 @@ object Direction {
   case object Down extends Direction
   case object Left extends Direction
   case object Right extends Direction
+  
+  def opposite(direction: Direction): Direction = direction match {
+    case Up => Down
+    case Down => Up
+    case Left => Right
+    case Right => Left
+  }
 }
+
