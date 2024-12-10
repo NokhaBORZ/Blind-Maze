@@ -32,7 +32,10 @@ case class Grid(tiles: Vector[Vector[Tile]]) {
   def size: Int = tiles.size
 
   def movePlayer(playerId: Int, direction: Direction): Grid = {
-    val playerPosition = getPlayer(Player(playerId))
+    val playerPosition = getPlayer(Player(playerId)) match{
+      case Some(position) => position
+      case None => return this
+    }
     val newPosition = playerPosition.move(direction)
 
     if (inBounds(newPosition)) {
@@ -50,7 +53,10 @@ case class Grid(tiles: Vector[Vector[Tile]]) {
   }
 
   def canMove(playerId: Int, direction: Direction): Boolean = {
-    val playerPosition = getPlayer(Player(playerId))
+    val playerPosition = getPlayer(Player(playerId))match{
+      case Some(position) => position
+      case None => return false
+    }
     val newPosition = playerPosition.move(direction)
 
     if (inBounds(newPosition)) {
@@ -64,12 +70,12 @@ case class Grid(tiles: Vector[Vector[Tile]]) {
     }
   }
 
-  def getPlayer(player: Player): Position = {
+  def getPlayer(player: Player): Option[Position] = {
   tiles.zipWithIndex.flatMap { case (row, y) =>
     row.zipWithIndex.collect {
     case (tile, x) if tile.content == TileContent.Player(player.id) => Position(x, y)
     }
-  }.headOption.getOrElse(Position(-1, -1))
+  }.headOption
   }
 
   def inBounds(position: Position): Boolean = {
