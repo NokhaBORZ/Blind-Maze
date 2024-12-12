@@ -5,10 +5,11 @@ import de.htwg.se.blindmaze.utils.Observer
 import de.htwg.se.blindmaze.controller.Controller
 import de.htwg.se.blindmaze.model.Direction
 import de.htwg.se.blindmaze.model.commands._
+import de.htwg.se.blindmaze.utils.GameEvent
 
 class TUI (controller: Controller) extends Observer {
   controller.add(this)
-  def update(): Unit = {
+  def update(event: GameEvent): Unit = {
     println(controller.showGrid)
     println("Current player: " + controller.gameManager.current)
     println(" ")

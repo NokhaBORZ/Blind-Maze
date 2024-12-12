@@ -38,7 +38,7 @@ Button:pressed {
 }
 
 FlowPane {
-    -fx-background-image: url('file:/C:/Users/nokha/OneDrive/Desktop/htwg/3.Semester/Github/Blind-Maze/src/main/resources/image/background.png');
+    -fx-background-image: url('../image/background2.png');
     -fx-background-position: center;
     -fx-background-size: auto;
     -fx-background-repeat: no-repeat;

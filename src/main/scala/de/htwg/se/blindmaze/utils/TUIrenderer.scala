@@ -3,7 +3,7 @@ package de.htwg.se.blindmaze.utils
 import de.htwg.se.blindmaze.model.{Grid, Position}
 import de.htwg.se.blindmaze.model.tiles.{Tile, TileContent}
 
-object Renderer{
+object TUIrenderer{
   def render(grid: Grid): String = {
     val horizontal = horizontalLine(grid.size)
 

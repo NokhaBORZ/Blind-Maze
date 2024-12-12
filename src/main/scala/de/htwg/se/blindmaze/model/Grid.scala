@@ -1,7 +1,7 @@
 package de.htwg.se.blindmaze.model
 
 import de.htwg.se.blindmaze.model.tiles.{Tile, TileFactory, TileContent}
-import de.htwg.se.blindmaze.utils.Renderer
+import de.htwg.se.blindmaze.utils.TUIrenderer
 
 //Flyweight pattern
 
@@ -83,6 +83,6 @@ case class Grid(tiles: Vector[Vector[Tile]]) {
   }
 
   def showGrid(): String = {
-    Renderer.render(this)
+    TUIrenderer.render(this)
   }
 }
