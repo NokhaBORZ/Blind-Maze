@@ -18,16 +18,16 @@ import _root_.view.gui.GUI
 
   var input = ""
 
-    println(s"${GREEN}The Game Blind Maze!${RESET}")
-    println("Find your way through the maze to the exit.")
-    println("'n' for new game.")
-    println("w,a,s,d for movement.")
-    println("Use 'q' to quit.")
-    println("")
+  println(s"${GREEN}The Game Blind Maze!${RESET}")
+  println("Find your way through the maze to the exit.")
+  println("'n' for new game.")
+  println("w,a,s,d for movement.")
+  println("Use 'q' to quit.")
+  println("")
 
-    while (input != "q") {
-    input = scala.io.StdIn.readLine("Input: ")
-    tui.processInputLine(input)
+  while (input != "q") {
+  input = scala.io.StdIn.readLine("Input: ")
+  tui.processInputLine(input)
   }
 }
 
