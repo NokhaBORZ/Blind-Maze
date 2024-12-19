@@ -28,10 +28,10 @@ class PositionSpec extends AnyWordSpec with Matchers {
 
         "move in the correct direction" in {
             val position = Position(1, 1)
-            position.move(Direction.Up) should be(Position(1, 0))
-            position.move(Direction.Down) should be(Position(1, 2))
-            position.move(Direction.Left) should be(Position(0, 1))
-            position.move(Direction.Right) should be(Position(2, 1))
+            position.move(de.htwg.se.blindmaze.utils.Direction.Up) should be(Position(1, 0))
+            position.move(de.htwg.se.blindmaze.utils.Direction.Down) should be(Position(1, 2))
+            position.move(de.htwg.se.blindmaze.utils.Direction.Left) should be(Position(0, 1))
+            position.move(de.htwg.se.blindmaze.utils.Direction.Right) should be(Position(2, 1))
         }
 
         "have a correct string representation" in {

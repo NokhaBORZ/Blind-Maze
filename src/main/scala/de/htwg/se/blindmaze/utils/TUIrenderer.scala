@@ -1,10 +1,11 @@
 package de.htwg.se.blindmaze.utils
 
-import de.htwg.se.blindmaze.model.{Grid, Position}
+import de.htwg.se.blindmaze.model.grid.IGrid
+import de.htwg.se.blindmaze.utils.Position
 import de.htwg.se.blindmaze.model.tiles.{Tile, TileContent}
 
 object TUIrenderer{
-  def render(grid: Grid): String = {
+  def render(grid: IGrid): String = {
     val horizontal = horizontalLine(grid.size)
 
     val rows = for (y <- 0 until grid.size) yield {

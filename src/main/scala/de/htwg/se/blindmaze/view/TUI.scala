@@ -3,7 +3,7 @@ package de.htwg.se.blindmaze.view
 import scala.io.AnsiColor.{GREEN, RED, RESET}
 import de.htwg.se.blindmaze.utils.Observer
 import de.htwg.se.blindmaze.controller.Controller
-import de.htwg.se.blindmaze.model.Direction
+import de.htwg.se.blindmaze.utils.Direction
 import de.htwg.se.blindmaze.model.commands._
 import de.htwg.se.blindmaze.utils.GameEvent
 
@@ -19,7 +19,7 @@ class TUI (controller: Controller) extends Observer {
   }
 
   def processInputLine(input: String): Unit = {
-    val command: Command = input match {
+    val command: ICommand = input match {
       case "q" => QuitGameCommand()
       case "n" => StartGameCommand()
       case "w" => MoveCommand(Direction.Up)

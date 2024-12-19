@@ -21,7 +21,7 @@ class ButtonController(gui: GUI, controller: Controller) {
     System.exit(0)
   }
 
-  def sendCommand(command: Command): Unit = {
+  def sendCommand(command: ICommand): Unit = {
     controller.executeCommand(command)
   }
 }

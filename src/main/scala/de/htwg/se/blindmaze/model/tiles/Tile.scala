@@ -1,12 +1,12 @@
 package de.htwg.se.blindmaze.model.tiles
 
-import de.htwg.se.blindmaze.model.items.Item
-import de.htwg.se.blindmaze.model.Player
+import de.htwg.se.blindmaze.model.player.IPlayer
+import de.htwg.se.blindmaze.model.item.IItem
 
 
 //Flyweight Pattern
 
-case class Chest(item : Item)
+case class Chest(item : IItem)
 
 sealed trait TileContent
 object TileContent {
@@ -32,7 +32,7 @@ case class Tile(content: TileContent) {
     case _ => false
   }
 
-  def isPlayer(player: Player): Boolean = content match {
+  def isPlayer(player: IPlayer): Boolean = content match {
     case TileContent.Player(id) => id == player.id
     case _                      => false
   }

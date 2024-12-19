@@ -1,8 +1,7 @@
 package de.htwg.se.blindmaze.utils
 
-import de.htwg.se.blindmaze.model.{Direction, Position}
 
-import de.htwg.se.blindmaze.model.Player
+import de.htwg.se.blindmaze.model.player.IPlayer
 
 enum GameEvent:
   // Start/Running Game Events
@@ -10,10 +9,10 @@ enum GameEvent:
   case OnGameResumeEvent
   // Players
   case OnPlayerMoveEvent
-  case OnPlayerWinEvent(player: Player)
+  case OnPlayerWinEvent(player: IPlayer)
 
   // Items
-  case OnItemsCollectionEvent(player: Player)
+  case OnItemsCollectionEvent(player: IPlayer)
 
 
   // End Game Events

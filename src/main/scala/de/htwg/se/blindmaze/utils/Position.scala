@@ -1,4 +1,5 @@
-package de.htwg.se.blindmaze.model
+package de.htwg.se.blindmaze.utils
+import de.htwg.se.blindmaze.utils.Direction
 
 case class Position(x: Int, y: Int) {
   def +(that: Position): Position = Position(this.x + that.x, this.y + that.y)
@@ -9,10 +10,10 @@ case class Position(x: Int, y: Int) {
 
   def move(direction: Direction): Position = {
     direction match {
-      case Direction.Up    => Position(x, y - 1)
-      case Direction.Down  => Position(x, y + 1)
-      case Direction.Left  => Position(x - 1, y)
-      case Direction.Right => Position(x + 1, y)
+      case de.htwg.se.blindmaze.utils.Direction.Up    => Position(x, y - 1)
+      case de.htwg.se.blindmaze.utils.Direction.Down  => Position(x, y + 1)
+      case de.htwg.se.blindmaze.utils.Direction.Left  => Position(x - 1, y)
+      case de.htwg.se.blindmaze.utils.Direction.Right => Position(x + 1, y)
     }
   }
 

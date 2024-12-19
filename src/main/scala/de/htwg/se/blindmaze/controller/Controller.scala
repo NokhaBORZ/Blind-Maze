@@ -1,16 +1,16 @@
 package de.htwg.se.blindmaze.controller
 
-import de.htwg.se.blindmaze.model.managers.GameManager
+import de.htwg.se.blindmaze.model.managers.IGameManager
 import de.htwg.se.blindmaze.utils.Observable
-import de.htwg.se.blindmaze.model.commands.{Command, UndoCommand}
-import de.htwg.se.blindmaze.model.Direction
+import de.htwg.se.blindmaze.model.commands.{ICommand, UndoCommand}
+import de.htwg.se.blindmaze.utils.Direction
 import scala.collection.mutable.Stack
 import scala.util.{Try, Success, Failure}
 import de.htwg.se.blindmaze.utils.GameEvent
 
 
-class Controller(var gameManager: GameManager) extends Observable {
-  private val commandHistory: Stack[Command] = Stack()
+class Controller(var gameManager: IGameManager) extends Observable {
+  private val commandHistory: Stack[ICommand] = Stack()
 
   def startGame(size: Int = 11): Unit = {
     gameManager = gameManager.startGame
@@ -18,7 +18,7 @@ class Controller(var gameManager: GameManager) extends Observable {
   }
 
   def resetGame(): Unit = {
-    gameManager = GameManager()
+    gameManager = IGameManager()
     notifyObservers(GameEvent.OnPlayerMoveEvent)
   }
 
@@ -29,7 +29,7 @@ class Controller(var gameManager: GameManager) extends Observable {
 
   def showGrid: String = gameManager.showGrid
 
-  def executeCommand(command: Command): Unit = {
+  def executeCommand(command: ICommand): Unit = {
     if (command.isInstanceOf[UndoCommand]) {
       undo()
       return

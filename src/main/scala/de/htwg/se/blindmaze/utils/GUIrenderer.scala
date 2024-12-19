@@ -8,7 +8,7 @@ import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.{Font, Text}
 import scalafx.stage.Stage
 
-import de.htwg.se.blindmaze.model.{Grid, Position}
+import de.htwg.se.blindmaze.model.grid.IGrid
 import de.htwg.se.blindmaze.model.tiles.{Tile, TileContent}
 import scalafx.scene.layout.StackPane
 
@@ -16,7 +16,7 @@ object GUIrenderer {
 
   private val tileSize = 50 // Size of each tile in pixels
 
-  def render(grid: Grid): GridPane = {
+  def render(grid: IGrid): GridPane = {
     // Create a GridPane to hold the tiles
     val gridPane = new GridPane()
 

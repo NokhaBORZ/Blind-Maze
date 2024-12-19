@@ -4,7 +4,7 @@ import javafx.scene.input.KeyEvent
 import javafx.scene.input.KeyCode
 
 import de.htwg.se.blindmaze.model.commands._
-import de.htwg.se.blindmaze.model.Direction
+import de.htwg.se.blindmaze.utils.Direction
 
 class KeyController(buttonController: ButtonController) {
 
@@ -33,7 +33,7 @@ class KeyController(buttonController: ButtonController) {
             case _ => 
         }
     }
-    private def sendCommand(command: Command): Unit = {
+    private def sendCommand(command: ICommand): Unit = {
         buttonController.sendCommand(command)
     }
 }

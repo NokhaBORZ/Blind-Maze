@@ -2,7 +2,8 @@ package de.htwg.se.blindmaze.model.managers
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import de.htwg.se.blindmaze.model.{Direction, Grid}
+import de.htwg.se.blindmaze.model.{Grid}
+import de.htwg.se.blindmaze.utils.Direction
 
 class GameManagerSpec extends AnyWordSpec with Matchers {
 

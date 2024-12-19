@@ -3,6 +3,7 @@ package de.htwg.se.blindmaze.model.managers
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import de.htwg.se.blindmaze.model._
+import de.htwg.se.blindmaze.utils.Direction
 
 class NotStartedStateSpec extends AnyWordSpec with Matchers {
 
