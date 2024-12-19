@@ -15,6 +15,11 @@ lazy val root = project
         case n if n.startsWith("Windows") => "win"
         case _ => throw new Exception("Unknown platform!")
       }
+      lazy val arch = System.getProperty("os.arch") match {
+        case "aarch64" => "aarch64"
+        case "x86_64"  => "x86_64"
+        case _ => throw new Exception("Unknown architecture!")
+      }
       Seq(
         "org.scalameta" %% "munit" % "1.0.0" % Test,
         "org.scalactic" %% "scalactic" % "3.2.10",
@@ -24,7 +29,7 @@ lazy val root = project
         "org.scalafx" %% "scalafx" % "21.0.0-R32",
         "org.scalafx" %% "scalafx-extras" % "0.10.1"
       ) ++ Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
-        .map(m => "org.openjfx" % s"javafx-$m" % "22" classifier osName)
+        .map(m => "org.openjfx" % s"javafx-$m" % "22" classifier s"$osName-$arch")
     },
     fork := true
   )
