@@ -30,6 +30,7 @@ lazy val root = project
         "org.scalafx" %% "scalafx-extras" % "0.10.1"
       ) ++ Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
         .map(m => "org.openjfx" % s"javafx-$m" % "22" classifier s"$osName-$arch")
+        
     },
     fork := true
   )
