@@ -1,4 +1,4 @@
-package de.htwg.se.blindmaze.model
+package de.htwg.se.blindmaze.utils
 
 sealed trait Direction
 //Singleton Pattern

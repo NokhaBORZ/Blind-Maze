@@ -1,7 +1,7 @@
 package de.htwg.se.blindmaze.utils
 
 trait Observer {
-  def update(): Unit
+  def update(event: GameEvent): Unit
 }
 
 class Observable {
@@ -11,5 +11,5 @@ class Observable {
 
   def remove(s: Observer): Unit = subscribers = subscribers.filterNot(o => o == s)
 
-  def notifyObservers(): Unit = subscribers.foreach(o => o.update())
+  def notifyObservers(event: GameEvent): Unit = subscribers.foreach(o => o.update(event: GameEvent))
 }

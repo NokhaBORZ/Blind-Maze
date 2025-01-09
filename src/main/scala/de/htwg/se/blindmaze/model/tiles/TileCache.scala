@@ -1,7 +1,7 @@
 package de.htwg.se.blindmaze.model.tiles
 
-import de.htwg.se.blindmaze.model.items.Item
-import de.htwg.se.blindmaze.model.Player
+import de.htwg.se.blindmaze.model.item.IItem
+import de.htwg.se.blindmaze.model.player.IPlayer
 
 //Flyweight Pattern
 
@@ -11,6 +11,6 @@ object TileCache {
   val VictoryTile: Tile = Tile(TileContent.Victory)
   val TrapTile: Tile = Tile(TileContent.Trap)
 
-  def PlayerTile(player: Player): Tile = Tile(TileContent.Player(player.id))
-  def ChestTile(item: Item): Tile = Tile(TileContent.ChestTile(Chest(item)))
+  def PlayerTile(player: IPlayer): Tile = Tile(TileContent.Player(player.id))
+  def ChestTile(item: IItem): Tile = Tile(TileContent.ChestTile(Chest(item)))
 }

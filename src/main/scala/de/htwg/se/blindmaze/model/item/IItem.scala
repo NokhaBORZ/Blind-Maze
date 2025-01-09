@@ -1,7 +1,6 @@
-// Item.scala
-package de.htwg.se.blindmaze.model.items
+package de.htwg.se.blindmaze.model.item
 
-import de.htwg.se.blindmaze.model.managers.GameManager
+import de.htwg.se.blindmaze.model.managers.IGameManager
 
 /**
  * Enumeration representing the rarity of an item.
@@ -12,7 +11,7 @@ enum Rarity:
 /**
  * Trait representing a generic item in the game.
  */
-trait Item {
+trait IItem {
   /**
    * The name of the item.
    */
@@ -21,10 +20,10 @@ trait Item {
   /**
    * Method to use the item, which modifies the game state.
    * 
-   * @param gameManager The current game manager instance.
+   * @param IGameManager The current game manager instance.
    * @return The updated game manager instance after using the item.
    */
-  def use(gameManager: GameManager): GameManager
+  def use(IGameManager: IGameManager): IGameManager
 
   /**
    * The rarity of the item.

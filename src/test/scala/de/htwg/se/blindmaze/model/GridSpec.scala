@@ -31,7 +31,7 @@ class GridSpec extends AnyWordSpec with Matchers {
 
         "move a player to a new position if the target tile is empty" in {
             val grid = new Grid(3).set(Position(0, 0), TileFactory.getTile(TileContent.Player(1)))
-            val newGrid = grid.movePlayer(1, Direction.Right)
+            val newGrid = grid.movePlayer(1, de.htwg.se.blindmaze.utils.Direction.Right)
             newGrid.get(Position(0, 0)).content should be(TileContent.Empty)
             newGrid.get(Position(1, 0)).content should be(TileContent.Player(1))
         }
@@ -40,15 +40,15 @@ class GridSpec extends AnyWordSpec with Matchers {
             val grid = new Grid(3)
                 .set(Position(0, 0), TileFactory.getTile(TileContent.Player(1)))
                 .set(Position(1, 0), TileFactory.getTile(TileContent.Player(2)))
-            val newGrid = grid.movePlayer(1, Direction.Right)
+            val newGrid = grid.movePlayer(1, de.htwg.se.blindmaze.utils.Direction.Right)
             newGrid.get(Position(0, 0)).content should be(TileContent.Player(1))
             newGrid.get(Position(1, 0)).content should be(TileContent.Player(2))
         }
 
         "check if a player can move to a new position" in {
             val grid = new Grid(3).set(Position(0, 0), TileFactory.getTile(TileContent.Player(1)))
-            grid.canMove(1, Direction.Right) should be(true)
-            grid.canMove(1, Direction.Left) should be(false)
+            grid.canMove(1, de.htwg.se.blindmaze.utils.Direction.Right) should be(true)
+            grid.canMove(1, de.htwg.se.blindmaze.utils.Direction.Left) should be(false)
         }
 
         "get the position of a player" in {

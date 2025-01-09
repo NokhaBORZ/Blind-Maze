@@ -1,55 +1,61 @@
 package de.htwg.se.blindmaze.controller
 
-import de.htwg.se.blindmaze.model.managers.GameManager
+import de.htwg.se.blindmaze.model.managers.IGameManager
 import de.htwg.se.blindmaze.utils.Observable
-import de.htwg.se.blindmaze.model.commands.{Command, UndoCommand}
-import de.htwg.se.blindmaze.model.Direction
+import de.htwg.se.blindmaze.model.commands.{ICommand, UndoCommand}
+import de.htwg.se.blindmaze.utils.Direction
 import scala.collection.mutable.Stack
 import scala.util.{Try, Success, Failure}
+import de.htwg.se.blindmaze.utils.GameEvent
 
 
-class Controller(var gameManager: GameManager) extends Observable {
-  private val commandHistory: Stack[Command] = Stack()
+class Controller(var gameManager: IGameManager) extends Observable {
+  private val commandHistory: Stack[ICommand] = Stack()
 
   def startGame(size: Int = 11): Unit = {
     gameManager = gameManager.startGame
-    notifyObservers()
+    notifyObservers(GameEvent.OnPlayerMoveEvent)
   }
 
   def resetGame(): Unit = {
-    gameManager = GameManager()
-    notifyObservers()
+    gameManager = IGameManager()
+    notifyObservers(GameEvent.OnPlayerMoveEvent)
   }
 
   def movePlayer(direction: Direction): Unit = {
     gameManager = gameManager.moveNext(direction)
-    notifyObservers()
+    notifyObservers(GameEvent.OnPlayerMoveEvent)
   }
 
   def showGrid: String = gameManager.showGrid
 
-  def executeCommand(command: Command): Unit = {
+  def executeCommand(command: ICommand): Unit = {
     if (command.isInstanceOf[UndoCommand]) {
       undo()
       return
     }
-    command.execute(gameManager) match {
+
+    val input = command.execute(gameManager)
+
+    input._1 match {
       case Success(newGameManager) =>
         gameManager = newGameManager
         commandHistory.push(command)
-        notifyObservers()
+        notifyObservers(input._2)
       case Failure(exception) =>
         println(s"Command execution failed: ${exception.getMessage}")
+        notifyObservers(input._2)
     }
   }
 
   def undo(): Unit = {
     if (commandHistory.nonEmpty) {
       val command = commandHistory.pop()
-      command.undo(gameManager) match {
+      val input = command.undo(gameManager)
+       input._1 match {
         case Success(newGameManager) =>
           gameManager = newGameManager
-          notifyObservers()
+          notifyObservers(input._2)
         case Failure(exception) =>
           println(s"Undo failed: ${exception.getMessage}")
       }

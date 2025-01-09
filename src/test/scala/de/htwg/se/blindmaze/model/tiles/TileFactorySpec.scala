@@ -5,6 +5,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import de.htwg.se.blindmaze.model.items.Item
 import de.htwg.se.blindmaze.model.Player
 import de.htwg.se.blindmaze.model.items.CursedMap
+import de.htwg.se.blindmaze.model.items.CursedMap
 
 class TileFactorySpec extends AnyWordSpec with Matchers {
 
