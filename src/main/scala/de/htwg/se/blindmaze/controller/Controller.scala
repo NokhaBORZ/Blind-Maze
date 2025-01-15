@@ -1,5 +1,11 @@
 package de.htwg.se.blindmaze.controller
 
+import com.google.inject.Guice
+import com.google.inject.name.Names
+import net.codingwell.scalaguice.InjectorExtensions._
+
+import de.htwg.se.blindmaze.modules.AppModule
+
 import de.htwg.se.blindmaze.model.managers.IGameManager
 import de.htwg.se.blindmaze.utils.Observable
 import de.htwg.se.blindmaze.model.commands.{ICommand, UndoCommand}
@@ -10,6 +16,7 @@ import de.htwg.se.blindmaze.utils.GameEvent
 
 
 class Controller(var gameManager: IGameManager) extends Observable {
+  val injector = Guice.createInjector(new AppModule)
   private val commandHistory: Stack[ICommand] = Stack()
 
   def startGame(size: Int = 11): Unit = {
@@ -18,7 +25,7 @@ class Controller(var gameManager: IGameManager) extends Observable {
   }
 
   def resetGame(): Unit = {
-    gameManager = IGameManager()
+    gameManager = injector.instance[IGameManager]
     notifyObservers(GameEvent.OnPlayerMoveEvent)
   }
 

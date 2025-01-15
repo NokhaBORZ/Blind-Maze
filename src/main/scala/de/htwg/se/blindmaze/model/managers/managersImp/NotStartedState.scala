@@ -6,15 +6,19 @@ import de.htwg.se.blindmaze.utils.Direction
 import de.htwg.se.blindmaze.model.managers.GameState
 import de.htwg.se.blindmaze.model.grid.IGrid
 import de.htwg.se.blindmaze.model.player.IPlayer
+import com.google.inject.Guice
+import com.google.inject.name.Names
+import net.codingwell.scalaguice.InjectorExtensions._
+
 //State Pattern
 
 case class NotStartedState(
-    val grid: IGrid = IGrid(10), 
+    val grid: IGrid,
     val current: Int = 1
   ) 
   extends IGameManager {
   override def startGame: IGameManager = {
-    RunningState (grid.createGrid(List(IPlayer(1), IPlayer(2))), current)
+    RunningState (grid.createGrid(List(injector.instance[IPlayer](Names.named("1")), injector.instance[IPlayer](Names.named("2")))))
   }
   override def quitGame: IGameManager = this
    

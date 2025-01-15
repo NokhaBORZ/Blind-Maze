@@ -6,19 +6,13 @@ lazy val root = project
     name := "Blind Maze",
     version := "0.1.1-SNAPSHOT",
     scalaVersion := scala3Version,
-    scalacOptions += "-Ymacro-annotations",
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries
       lazy val osName = System.getProperty("os.name") match {
         case n if n.startsWith("Linux")   => "linux"
-        case n if n.startsWith("Mac")     => "mac"
+        case n if n.startsWith("Mac")     => "mac-aarch64"
         case n if n.startsWith("Windows") => "win"
         case _ => throw new Exception("Unknown platform!")
-      }
-      lazy val arch = System.getProperty("os.arch") match {
-        case "aarch64" => "aarch64"
-        case "x86_64"  => "x86_64"
-        case _ => throw new Exception("Unknown architecture!")
       }
       Seq(
         "org.scalameta" %% "munit" % "1.0.0" % Test,
@@ -27,9 +21,11 @@ lazy val root = project
         "org.scalatestplus" %% "mockito-3-4" % "3.2.9.0" % Test,
         "org.jline" % "jline" % "3.27.1",
         "org.scalafx" %% "scalafx" % "21.0.0-R32",
-        "org.scalafx" %% "scalafx-extras" % "0.10.1"
-      ) ++ Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
-        .map(m => "org.openjfx" % s"javafx-$m" % "22" classifier s"$osName-$arch")
+        "org.scalafx" %% "scalafx-extras" % "0.10.1",
+        "com.google.inject" % "guice" % "5.1.0",
+        "net.codingwell" %% "scala-guice" % "7.0.0"
+        ) ++ Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
+        .map(m => "org.openjfx" % s"javafx-$m" % "22" classifier osName)
         
     },
     fork := true

@@ -16,7 +16,3 @@ trait IGrid {
     def inBounds(position: Position): Boolean
     def showGrid(): String
 }
-
-object IGrid {
-    def apply(size: Int): IGrid = new Grid(size)
-}

@@ -1,5 +1,11 @@
 package de.htwg.se.blindmaze
 
+import com.google.inject.Guice
+import com.google.inject.name.Names
+import net.codingwell.scalaguice.InjectorExtensions._
+
+import de.htwg.se.blindmaze.modules.AppModule
+
 import scala.io.AnsiColor.{GREEN, RED, RESET}
 import de.htwg.se.blindmaze.controller.Controller
 import de.htwg.se.blindmaze.model.managers.IGameManager
@@ -7,8 +13,8 @@ import de.htwg.se.blindmaze.view.TUI
 import _root_.view.gui.GUI
 
 @main def blindmaze(): Unit = {
-  
-  val controller = Controller(IGameManager())
+  val injector = Guice.createInjector(new AppModule)
+  val controller = Controller(injector.instance[IGameManager])
   val tui = TUI(controller)
   val gui = GUI(controller)
   

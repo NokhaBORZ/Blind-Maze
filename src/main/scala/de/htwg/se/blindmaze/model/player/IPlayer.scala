@@ -9,7 +9,3 @@ trait IPlayer {
   def addItem(item: IItem): IPlayer
   def removeItem(item: IItem): IPlayer
 }
-
-object IPlayer {
-  def apply(id: Int, inventory: List[IItem] = List.empty): IPlayer = Player(id, inventory)
-}

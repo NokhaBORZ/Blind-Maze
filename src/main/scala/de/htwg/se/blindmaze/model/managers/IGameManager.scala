@@ -4,6 +4,12 @@ import de.htwg.se.blindmaze.utils.Direction
 import de.htwg.se.blindmaze.model.grid.IGrid
 import de.htwg.se.blindmaze.model.managers.managersImp.NotStartedState
 
+import com.google.inject.Guice
+import com.google.inject.name.Names
+import net.codingwell.scalaguice.InjectorExtensions._
+
+import de.htwg.se.blindmaze.modules.AppModule
+
 
 //State Pattern
 
@@ -11,6 +17,7 @@ enum GameState:
   case NotStarted, Running, Finished
 
 trait  IGameManager {
+  val injector = Guice.createInjector(new AppModule)
   val grid: IGrid
   val current: Int
   def startGame:  IGameManager
@@ -23,8 +30,3 @@ trait  IGameManager {
 
   def state : GameState
 }
-
-object IGameManager {
-  def apply(): IGameManager = NotStartedState()
-}
-

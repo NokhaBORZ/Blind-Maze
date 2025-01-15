@@ -1,5 +1,11 @@
 package de.htwg.se.blindmaze.model.grid.gridImp
 
+import com.google.inject.Inject
+import com.google.inject.Guice
+import com.google.inject.name.Names
+import net.codingwell.scalaguice.InjectorExtensions._
+import de.htwg.se.blindmaze.modules.AppModule
+
 import de.htwg.se.blindmaze.model.tiles.{Tile, TileFactory, TileContent}
 import de.htwg.se.blindmaze.utils.TUIrenderer
 import de.htwg.se.blindmaze.utils.Direction
@@ -9,7 +15,9 @@ import de.htwg.se.blindmaze.model.grid.IGrid
 
 //Flyweight pattern
 
-case class Grid(tiles: Vector[Vector[Tile]]) extends IGrid {
+case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
+
+  val injector = Guice.createInjector(new AppModule)
 
   def this(size: Int) = this(Vector.fill(size, size)(TileFactory.getTile(TileContent.Empty)))
 
@@ -36,7 +44,7 @@ case class Grid(tiles: Vector[Vector[Tile]]) extends IGrid {
   def size: Int = tiles.size
 
   def movePlayer(playerId: Int, direction: Direction): Grid = {
-    val playerPosition = getPlayer(IPlayer(playerId)) match{
+    val playerPosition = getPlayer(injector.instance[IPlayer](Names.named(playerId.toString()))) match{
       case Some(position) => position
       case None => return this
     }
@@ -57,7 +65,7 @@ case class Grid(tiles: Vector[Vector[Tile]]) extends IGrid {
   }
 
   def canMove(playerId: Int, direction: Direction): Boolean = {
-    val playerPosition = getPlayer(IPlayer(playerId))match{
+    val playerPosition = getPlayer(injector.instance[IPlayer](Names.named(playerId.toString()))) match{
       case Some(position) => position
       case None => return false
     }
