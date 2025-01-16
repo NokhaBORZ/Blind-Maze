@@ -11,11 +11,14 @@ class TUI (controller: Controller) extends Observer {
   controller.add(this)
   def update(event: GameEvent): Unit = {
     println(controller.showGrid)
+    if (event != GameEvent.OnQuitEvent) {
+
     println("Current player: " + controller.gameManager.current)
     println(" ")
     println("w,a,s,d for movement.")
     println("Use 'q' to quit.")
     println("")
+    }
   }
 
   def processInputLine(input: String): Unit = {
@@ -27,6 +30,8 @@ class TUI (controller: Controller) extends Observer {
       case "a" => MoveCommand(Direction.Left)
       case "d" => MoveCommand(Direction.Right)
       case "u" => UndoCommand()
+      case "k" => SaveCommand()
+      case "l" => LoadCommand()
       case _ => new InvalidCommand
     }
     controller.executeCommand(command)

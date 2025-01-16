@@ -2,7 +2,7 @@ package de.htwg.se.blindmaze.model.managers
 
 import de.htwg.se.blindmaze.utils.Direction
 import de.htwg.se.blindmaze.model.grid.IGrid
-import de.htwg.se.blindmaze.model.managers.managersImp.NotStartedState
+import de.htwg.se.blindmaze.model.managers.managersImp.{NotStartedState, RunningState}
 
 import com.google.inject.Guice
 import com.google.inject.name.Names
@@ -29,4 +29,34 @@ trait  IGameManager {
   def changeCurrent: IGameManager = this
 
   def state : GameState
+
+  def toXml: scala.xml.Node = {
+    <game>
+    <current>{current}</current>
+      {grid.toXml}
+    </game>
+  }
+
+  def toJson: play.api.libs.json.JsObject = {
+    play.api.libs.json.Json.obj(
+      "current" -> current,
+      "grid" -> grid.toJson
+    )
+  }
+}
+
+object IGameManager {
+  def fromXml(node: scala.xml.Node): IGameManager = {
+    val grid = IGrid.fromXml((node \ "grid").head)
+    val current = (node \ "current").text.toInt
+    
+    RunningState(grid, current)
+  }
+
+  def fromJson(json: play.api.libs.json.JsValue): IGameManager = {
+    val grid = IGrid.fromJson((json \ "grid").get)
+    val current = (json \ "current").as[Int]
+    
+    RunningState(grid, current)
+  }
 }

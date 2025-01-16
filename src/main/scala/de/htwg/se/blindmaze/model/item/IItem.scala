@@ -1,6 +1,9 @@
 package de.htwg.se.blindmaze.model.item
 
+import play.api.libs.json.{JsObject, Json}
+
 import de.htwg.se.blindmaze.model.managers.IGameManager
+import de.htwg.se.blindmaze.model.item.ItemsImp.Inventory
 
 /**
  * Enumeration representing the rarity of an item.
@@ -34,4 +37,28 @@ trait IItem {
    * A description of the item.
    */
   def description: String
+
+  def toXml: scala.xml.Node = {
+    <item>
+      <name>{name}</name>
+    </item>
+  }
+
+  def toJson: JsObject = {
+    Json.obj(
+      "name" -> name
+    )
+  }
+}
+
+object IItem {
+  def fromXml(node: scala.xml.Node): IItem = {
+    val name = (node \ "name").text
+    Inventory(name)
+  }
+
+  def fromJson(json: play.api.libs.json.JsValue): IItem = {
+    val name = (json \ "name").as[String]
+    Inventory(name)
+  }
 }

@@ -30,6 +30,10 @@ class KeyController(buttonController: ButtonController) {
                 sendCommand(QuitGameCommand())
             case KeyCode.N =>
                 sendCommand(StartGameCommand())
+            case KeyCode.K =>
+                sendCommand(SaveCommand())
+            case KeyCode.L =>
+                sendCommand(LoadCommand())
             case _ => 
         }
     }

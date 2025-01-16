@@ -5,6 +5,8 @@ import javafx.fxml.{FXMLLoader, FXML}
 import javafx.scene.Parent
 import javafx.scene.layout.BorderPane
 import javafx.scene.input.KeyEvent
+import javafx.application.Platform
+
 
 import scalafx.application.JFXApp3
 import scalafx.application.ConditionalFeature.FXML
@@ -23,16 +25,22 @@ class GUI(controller: Controller) extends JFXApp3 with Observer {
 
   controller.add(this)
   override def update(event: GameEvent): Unit = {
-    event match {
+    Platform.runLater(() => {
+      event match {
       case GameEvent.OnGameStartEvent => 
         switchScene("Game")
         showGrid()
-      case GameEvent.OnQuitEvent =>
-        switchScene("Menu")
       case GameEvent.OnPlayerMoveEvent =>
         showGrid()
+      case GameEvent.OnQuitEvent =>
+        Platform.exit()
+        System.exit(0)
+      case GameEvent.OnLoadEvent =>
+        switchScene("Game")
+        showGrid()
       case _ =>
-    }
+      }
+    })
   }
 
   val buttonController = new ButtonController(this, controller)
@@ -54,13 +62,16 @@ class GUI(controller: Controller) extends JFXApp3 with Observer {
   }
 
   def showGrid(): Unit = {
-    val borderPane = rootPane.getChildren().getFirst().asInstanceOf[BorderPane]
-    if (borderPane == null) 
-      return
+    Platform.runLater(new Runnable {
+      override def run(): Unit = {
+        val borderPane = rootPane.getChildren().getFirst().asInstanceOf[BorderPane]
+        if (borderPane == null) 
+          return
 
-    val grid = GUIrenderer.render(controller.gameManager.grid)
-    
-    borderPane.setCenter(grid)
+        val grid = GUIrenderer.render(controller.gameManager.grid)
+        borderPane.setCenter(grid)
+      }
+    })
   }
 
   // Switch to a new scene

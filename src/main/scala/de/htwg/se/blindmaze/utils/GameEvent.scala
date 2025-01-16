@@ -34,3 +34,5 @@ enum GameEvent:
   case OnQuitEvent
   case OnNoneEvent
   case OnUndoEvent
+  case OnSaveEvent
+  case OnLoadEvent

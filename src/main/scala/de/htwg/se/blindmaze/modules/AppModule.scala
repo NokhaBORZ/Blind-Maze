@@ -10,6 +10,10 @@ import de.htwg.se.blindmaze.utils.Direction
 class AppModule extends AbstractModule {
   override def configure(): Unit = {
     // Binding interface to implementation
+
+    bind(classOf[fileIO.IFileIO]).annotatedWith(Names.named("Json")).to(classOf[fileIO.fileImp.FileIOJson])
+    bind(classOf[fileIO.IFileIO]).annotatedWith(Names.named("Xml")).to(classOf[fileIO.fileImp.FileIOXml])
+
     bind(classOf[grid.IGrid]).toProvider(() =>
       new grid.gridImp.Grid(Vector.fill(10, 10)(tiles.TileFactory.getTile(tiles.TileContent.Empty)))
     )
