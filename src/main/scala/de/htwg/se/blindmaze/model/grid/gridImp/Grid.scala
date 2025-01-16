@@ -19,15 +19,17 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
 
   val injector = Guice.createInjector(new AppModule)
 
+  
   def this(size: Int) = this(Vector.fill(size, size)(TileFactory.getTile(TileContent.Empty)))
 
-  def createGrid(playerList: List[IPlayer]): Grid = {
+  override def createGrid(playerList: List[IPlayer]): Grid = {
     val initialGrid = new Grid(size)
     val updatedGrid = initialGrid
       .set(Position(0, 0), TileFactory.getTile(TileContent.Player(playerList.head.id)))
       .set(Position(size - 1, size - 1), TileFactory.getTile(TileContent.Player(playerList(1).id)))
     updatedGrid
   }
+
 
   def set(position: Position, tile: Tile): Grid = {
     copy(tiles.updated(position.y, tiles(position.y).updated(position.x, tile)))

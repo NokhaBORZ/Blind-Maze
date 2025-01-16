@@ -19,6 +19,7 @@ class Controller(var gameManager: IGameManager) extends Observable {
   val injector = Guice.createInjector(new AppModule)
   private val commandHistory: Stack[ICommand] = Stack()
 
+
   def startGame(size: Int = 11): Unit = {
     gameManager = gameManager.startGame
     notifyObservers(GameEvent.OnPlayerMoveEvent)

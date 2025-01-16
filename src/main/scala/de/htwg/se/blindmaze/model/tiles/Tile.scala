@@ -34,6 +34,11 @@ case class Tile(content: TileContent) {
     case _ => false
   }
 
+  def isAnyPlayer: Boolean = content match {
+    case TileContent.Player(_) => true
+    case _ => false
+  }
+
   def isPlayer(player: IPlayer): Boolean = content match {
     case TileContent.Player(id) => id == player.id
     case _                      => false

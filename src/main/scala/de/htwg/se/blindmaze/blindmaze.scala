@@ -36,6 +36,3 @@ import _root_.view.gui.GUI
     tui.processInputLine(input)
   }
 }
-
-
-
