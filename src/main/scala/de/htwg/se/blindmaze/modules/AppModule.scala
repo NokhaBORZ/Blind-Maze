@@ -18,7 +18,7 @@ class AppModule extends AbstractModule {
       new grid.gridImp.Grid(Vector.fill(10, 10)(tiles.TileFactory.getTile(tiles.TileContent.Empty)))
     )
     bind(classOf[managers.IGameManager]).toProvider(() =>
-      new managers.managersImp.NotStartedState(new grid.gridImp.Grid(10))
+      new managers.managersImp.NotStartedState(new grid.gridImp.Grid(11))
     )
     bind(classOf[item.IItem]).annotatedWith(Names.named("Lantern")).toProvider(() =>
       new item.ItemsImp.Lantern("Lantern")
