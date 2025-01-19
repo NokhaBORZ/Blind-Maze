@@ -17,7 +17,7 @@ trait IGrid {
     def getPlayer(player: IPlayer): Option[Position]
     def inBounds(position: Position): Boolean
     def showGrid(): String
-
+    def hasPlayerReachedVictory(playerId: Int): Boolean
     def toXml: scala.xml.Node = {
         <grid size={size.toString}>
             {for {

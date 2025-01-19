@@ -19,7 +19,6 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
 
   val injector = Guice.createInjector(new AppModule)
 
-  
   def this(size: Int) = this(Vector.fill(size, size)(TileFactory.getTile(TileContent.Empty)))
 
   override def createGrid(playerList: List[IPlayer]): Grid = {
@@ -27,9 +26,9 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
     val updatedGrid = initialGrid
       .set(Position(0, 0), TileFactory.getTile(TileContent.Player(playerList.head.id)))
       .set(Position(size - 1, size - 1), TileFactory.getTile(TileContent.Player(playerList(1).id)))
+      .set(Position(size / 2, size / 2), TileFactory.getTile(TileContent.Victory))  // Set Victory tile
     updatedGrid
   }
-
 
   def set(position: Position, tile: Tile): Grid = {
     copy(tiles.updated(position.y, tiles(position.y).updated(position.x, tile)))
@@ -55,7 +54,7 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
     if (inBounds(newPosition)) {
       val targetTile = get(newPosition)
       targetTile.content match {
-        case TileContent.Empty =>
+        case TileContent.Empty | TileContent.Victory =>
           set(playerPosition, Tile(TileContent.Empty))
             .set(newPosition, Tile(TileContent.Player(playerId)))
         case _ =>
@@ -77,6 +76,7 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
       val targetTile = get(newPosition)
       targetTile.content match {
         case TileContent.OutOfBounds => false
+        case TileContent.Wall => false
         case _ => true
       }
     } else {
@@ -85,11 +85,11 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
   }
 
   def getPlayer(player: IPlayer): Option[Position] = {
-  tiles.zipWithIndex.flatMap { case (row, y) =>
-    row.zipWithIndex.collect {
-    case (tile, x) if tile.content == TileContent.Player(player.id) => Position(x, y)
-    }
-  }.headOption
+    tiles.zipWithIndex.flatMap { case (row, y) =>
+      row.zipWithIndex.collect {
+        case (tile, x) if tile.content == TileContent.Player(player.id) => Position(x, y)
+      }
+    }.headOption
   }
 
   def inBounds(position: Position): Boolean = {
@@ -99,4 +99,15 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
   def showGrid(): String = {
     TUIrenderer.render(this)
   }
+
+  def hasPlayerReachedVictory(playerId: Int): Boolean = {
+    tiles.flatten.exists(tile => 
+      tile.content match {
+        case TileContent.Player(id) if id == playerId => true
+        case TileContent.Victory => true
+        case _ => false
+      }
+    )
+  }
 }
+

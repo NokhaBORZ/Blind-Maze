@@ -26,6 +26,7 @@ case class Tile(content: TileContent) {
 
   def isWalkable: Boolean = content match {
     case TileContent.Empty => true
+    case TileContent.Victory => true
     case _                 => false
   }
 
