@@ -2,15 +2,19 @@ package de.htwg.se.blindmaze.utils
 
 import scalafx.application.Platform
 import scalafx.scene.Scene
-import scalafx.scene.layout.{GridPane, Pane}
+import scalafx.scene.layout.{GridPane, Pane, StackPane}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.{Font, Text}
 import scalafx.stage.Stage
+import scalafx.geometry.Pos
+import scalafx.scene.control.{Button, Label}
+import scalafx.scene.layout.VBox
+
 
 import de.htwg.se.blindmaze.model.grid.IGrid
 import de.htwg.se.blindmaze.model.tiles.{Tile, TileContent}
-import scalafx.scene.layout.StackPane
+import scalafx.scene.layout.{GridPane, Pane, StackPane, VBox}
 
 object GUIrenderer {
 
@@ -59,5 +63,21 @@ object GUIrenderer {
 
     pane.children.addAll(rect, content)
     pane
+  }
+
+  def renderWinner(player: Int): StackPane = {
+    new StackPane  {
+      val winnerText = new Text(s"Player $player wins!") {
+        font = Font(40)
+      }
+
+      val button = new Button("Close") {
+        onAction = _ => System.exit(0) // Exit the application
+      }
+
+      val vbox = new VBox(20, winnerText, button) {
+        alignment = Pos.Center
+      }
+    }
   }
 }

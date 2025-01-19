@@ -38,10 +38,15 @@ class GUI(controller: Controller) extends JFXApp3 with Observer {
       case GameEvent.OnLoadEvent =>
         switchScene("Game")
         showGrid()
+      case GameEvent.OnPlayerWinEvent(p) =>
+        showWinnerPanel(p)
       case _ =>
       }
     })
   }
+
+  private def showWinnerPanel(player: Int): Unit = {
+    rootPane.getChildren.add(GUIrenderer.renderWinner(player)) }
 
   val buttonController = new ButtonController(this, controller)
   val keyController = new KeyController(buttonController)
