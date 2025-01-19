@@ -44,6 +44,7 @@ case class RunningState(
         case Some(position) if grid.get(position).content == TileContent.Victory =>
             println(s"Player $current wins!")
             return FinishedState(newGrid, current)
+            
         case _ => // Continue if no victory
     }
 

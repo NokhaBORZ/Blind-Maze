@@ -7,7 +7,7 @@ import de.htwg.se.blindmaze.modules.AppModule
 
 import de.htwg.se.blindmaze.controller.Controller
 import de.htwg.se.blindmaze.utils.Direction
-import de.htwg.se.blindmaze.model.managers.IGameManager
+import de.htwg.se.blindmaze.model.managers.{IGameManager, GameState}
 import scala.util.{Try, Success, Failure}
 import de.htwg.se.blindmaze.utils.GameEvent
 import scala.util.Failure
@@ -30,8 +30,14 @@ trait ICommand {
 }
 
 case class MoveCommand(direction: Direction) extends ICommand {
-  override def execute(gameManager: IGameManager): (Try[IGameManager], GameEvent) =  {
-    (Try(gameManager.moveNext(direction)), GameEvent.OnPlayerMoveEvent)
+  override def execute(gameManager: IGameManager): (Try[IGameManager], GameEvent) = {
+    val newGameManager = gameManager.moveNext(direction)
+    val event = if (newGameManager.state == GameState.Finished) {
+      GameEvent.OnPlayerWinEvent(newGameManager.current)
+    } else {
+      GameEvent.OnPlayerMoveEvent
+    }
+    (Try(newGameManager), event)
   }
 
   override def undo(gameManager: IGameManager): (Try[IGameManager], GameEvent) = {
