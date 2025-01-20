@@ -6,18 +6,15 @@ import de.htwg.se.blindmaze.utils.Direction
 import de.htwg.se.blindmaze.model.managers.GameState
 import de.htwg.se.blindmaze.model.grid.IGrid
 import de.htwg.se.blindmaze.model.player.IPlayer
+import com.google.inject.Injector
 import com.google.inject.name.Names
-
-
 import com.google.inject.Guice
 import net.codingwell.scalaguice.InjectorExtensions._
-
-//State Pattern
+import de.htwg.se.blindmaze.model.tiles.TileContent
 
 case class RunningState(
     val grid: IGrid,
     val current: Int = 1
-
 ) extends IGameManager {
   override def startGame: IGameManager = this
 
@@ -27,19 +24,34 @@ case class RunningState(
   }
 
   override def resetGame: IGameManager = {
-    copy (grid.createGrid(List(injector.instance[IPlayer](Names.named("1")), injector.instance[IPlayer](Names.named("2")))), current)
+    copy(grid.createGrid(List(injector.instance[IPlayer](Names.named("1")), injector.instance[IPlayer](Names.named("2")))), current)
   }
 
   override def moveNext(direction: Direction): IGameManager = {
-    // logic for moving player
+    // Logic for moving player
     if (!grid.canMove(current, direction)) {
-      return this
+        return this
     }
+
     val newGrid = grid.movePlayer(current, direction)
+
+    // Check if the player reaches the VictoryTile after moving
+    val player = injector.instance[IPlayer](Names.named(current.toString))
+    val playerPosition = newGrid.getPlayer(player)
+    println(s"Player $current moved to $playerPosition")
+
+    playerPosition match {
+        case Some(position) if grid.get(position).content == TileContent.Victory =>
+            println(s"Player $current wins!")
+            return FinishedState(newGrid, current)
+            
+        case _ => // Continue if no victory
+    }
+
     val newCurrent = if (current == 1) 2 else 1
-    copy(newGrid, newCurrent)
-    
-  }
+    RunningState(newGrid, newCurrent) // Ensure the player switch occurs correctly
+}
+
   override def showGrid: String = {
     grid.showGrid()
   }
@@ -48,5 +60,6 @@ case class RunningState(
 
   override def invalidCommand: IGameManager = this
 
-  override def changeCurrent: IGameManager = copy(current = if (current == 1) 2 else 1)
+  override def changeCurrent: IGameManager = RunningState(grid, if (current == 1) 2 else 1)
 }
+

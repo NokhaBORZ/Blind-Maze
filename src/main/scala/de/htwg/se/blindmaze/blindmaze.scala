@@ -32,10 +32,7 @@ import _root_.view.gui.GUI
   println("")
 
   while (input != "q") {
-  input = scala.io.StdIn.readLine("Input: ")
-  tui.processInputLine(input)
+    input = scala.io.StdIn.readLine("Input: ")
+    tui.processInputLine(input)
   }
 }
-
-
-

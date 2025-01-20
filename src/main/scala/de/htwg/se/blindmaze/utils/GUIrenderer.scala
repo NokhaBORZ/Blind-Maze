@@ -2,19 +2,23 @@ package de.htwg.se.blindmaze.utils
 
 import scalafx.application.Platform
 import scalafx.scene.Scene
-import scalafx.scene.layout.{GridPane, Pane}
+import scalafx.scene.layout.{GridPane, Pane, StackPane}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.{Font, Text}
 import scalafx.stage.Stage
+import scalafx.geometry.Pos
+import scalafx.scene.control.{Button, Label}
+import scalafx.scene.layout.VBox
+
 
 import de.htwg.se.blindmaze.model.grid.IGrid
 import de.htwg.se.blindmaze.model.tiles.{Tile, TileContent}
-import scalafx.scene.layout.StackPane
+import scalafx.scene.layout.{GridPane, Pane, StackPane, VBox}
 
 object GUIrenderer {
 
-  private val tileSize = 50 // Size of each tile in pixels
+  private val tileSize = 80 // Adjusted size of each tile in pixels
 
   def render(grid: IGrid): GridPane = {
     // Create a GridPane to hold the tiles
@@ -30,51 +34,50 @@ object GUIrenderer {
   }
 
   private def renderTile(tile: Tile): Pane = {
-    val pane = new Pane()
+    val pane = new StackPane()
 
-    // Background rectangle for the tile
+    // Background rectangle for the tile with rounded corners and dark background
     val rect = new Rectangle {
       width = tileSize
       height = tileSize
-      fill = tileColor(tile)
-      stroke = Color.Black
-      strokeWidth = 1
+      fill = tile.content match {
+        case TileContent.Empty => Color.web("#333333")
+        case TileContent.Wall => Color.web("#555555")
+        case TileContent.Player(_) => Color.web("#0077FF")
+        case TileContent.Victory => Color.web("#00FF00")
+        case TileContent.OutOfBounds => Color.web("#000000")
+        case TileContent.Trap => Color.web("#FF0000")
+        case TileContent.ChestTile(_) => Color.web("#FFD700")
+      }
+      arcWidth = 15 // Rounded corners
+      arcHeight = 15 // Rounded corners
+      stroke = Color.web("#555555") // Slight border color for clarity
+      strokeWidth = 2
     }
 
-    // Text to represent the content of the tile
-    val contentText = new Text {
-      text = tileContentText(tile.content)
-      font = Font.font(20)
-      fill = Color.Black
-      x = tileSize / 4
-      y = tileSize / 1.5
+    // Example content (e.g., text or icons can be added here)
+    val content = new Text {
+      fill = Color.White
+      font = Font("Arial", 16)
     }
 
-    pane.children.addAll(rect, contentText)
+    pane.children.addAll(rect, content)
     pane
   }
 
-  private def tileColor(tile: Tile): Color = {
-    tile.content match {
-      case TileContent.Empty      => Color.LightGray
-      case TileContent.Player(_)  => Color.Green
-      case TileContent.Wall       => Color.DarkGray
-      case TileContent.Victory    => Color.Gold
-      case TileContent.OutOfBounds => Color.Red
-      case TileContent.Trap       => Color.Purple
-      case TileContent.ChestTile(_) => Color.Blue
-    }
-  }
+  def renderWinner(player: Int): StackPane = {
+    new StackPane  {
+      val winnerText = new Text(s"Player $player wins!") {
+        font = Font(40)
+      }
 
-  private def tileContentText(content: TileContent): String = {
-    content match {
-      case TileContent.Empty      => ""
-      case TileContent.Player(id) => s"P$id"
-      case TileContent.Wall       => "#"
-      case TileContent.Victory    => "V"
-      case TileContent.OutOfBounds => "X"
-      case TileContent.Trap       => "T"
-      case TileContent.ChestTile(_) => "C"
+      val button = new Button("Close") {
+        onAction = _ => System.exit(0) // Exit the application
+      }
+
+      val vbox = new VBox(20, winnerText, button) {
+        alignment = Pos.Center
+      }
     }
   }
 }

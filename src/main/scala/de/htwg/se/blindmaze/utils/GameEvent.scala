@@ -9,7 +9,7 @@ enum GameEvent:
   case OnGameResumeEvent
   // Players
   case OnPlayerMoveEvent
-  case OnPlayerWinEvent(player: IPlayer)
+  case OnPlayerWinEvent(playerid: Int)
 
   // Items
   case OnItemsCollectionEvent(player: IPlayer)
@@ -34,3 +34,5 @@ enum GameEvent:
   case OnQuitEvent
   case OnNoneEvent
   case OnUndoEvent
+  case OnSaveEvent
+  case OnLoadEvent
