@@ -28,7 +28,7 @@ object TUIrenderer{
     tile.content match {
         case TileContent.Empty      => "   "
         case TileContent.Player(id) => s" ${id} "
-        case TileContent.Wall       => " # "
+        case TileContent.Wall(visible) => if (visible) " # " else " # "
         case TileContent.Victory => " V "
         case TileContent.OutOfBounds => " X "
         case TileContent.Trap => " T "

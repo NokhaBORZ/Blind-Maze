@@ -57,6 +57,8 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
         case TileContent.Empty | TileContent.Victory =>
           set(playerPosition, Tile(TileContent.Empty))
             .set(newPosition, Tile(TileContent.Player(playerId)))
+        case TileContent.Wall(false) =>
+          set(newPosition, Tile(TileContent.Wall(true)))
         case _ =>
           this
       }
@@ -76,7 +78,7 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
       val targetTile = get(newPosition)
       targetTile.content match {
         case TileContent.OutOfBounds => false
-        case TileContent.Wall => false
+        case TileContent.Wall(_) => false
         case _ => true
       }
     } else {

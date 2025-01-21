@@ -7,7 +7,8 @@ import de.htwg.se.blindmaze.model.player.IPlayer
 
 object TileCache {
   val EmptyTile: Tile = Tile(TileContent.Empty)
-  val WallTile: Tile = Tile(TileContent.Wall)
+  val WallTile: Tile = Tile(TileContent.Wall(visible = false))
+  val visibleWallTile: Tile = Tile(TileContent.Wall(visible = true))
   val VictoryTile: Tile = Tile(TileContent.Victory)
   val TrapTile: Tile = Tile(TileContent.Trap)
 

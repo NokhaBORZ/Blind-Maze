@@ -11,7 +11,6 @@ import de.htwg.se.blindmaze.model.managers.IGameManager
 import de.htwg.se.blindmaze.view.TUI
 import _root_.view.gui.GUI
 
-
 object Main {
   def main(args: Array[String]): Unit = {
     

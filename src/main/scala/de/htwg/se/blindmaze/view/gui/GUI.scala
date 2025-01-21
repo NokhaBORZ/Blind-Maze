@@ -20,6 +20,7 @@ import de.htwg.se.blindmaze.utils.GUIrenderer
 import de.htwg.se.blindmaze.view.gui.KeyController
 import de.htwg.se.blindmaze.utils.Observer
 import de.htwg.se.blindmaze.utils.GameEvent
+import de.htwg.se.blindmaze.utils.AudioManager
 
 class GUI(controller: Controller) extends JFXApp3 with Observer {
 
@@ -39,6 +40,7 @@ class GUI(controller: Controller) extends JFXApp3 with Observer {
         switchScene("Game")
         showGrid()
       case GameEvent.OnPlayerWinEvent(p) =>
+        showGrid()
         showWinnerPanel(p)
       case _ =>
       }
@@ -46,13 +48,15 @@ class GUI(controller: Controller) extends JFXApp3 with Observer {
   }
 
   private def showWinnerPanel(player: Int): Unit = {
-    rootPane.getChildren.add(GUIrenderer.renderWinner(player)) }
+    rootPane.getChildren.add(GUIrenderer.renderWinner(player)) 
+  }
 
   val buttonController = new ButtonController(this, controller)
   val keyController = new KeyController(buttonController)
   val rootPane = new StackPane()
 
   override def start(): Unit = {
+    AudioManager.initialize()
     stage = new JFXApp3.PrimaryStage {
       title = "Blind Maze"
       icons.add(new javafx.scene.image.Image("/image/icon.png"))
@@ -73,7 +77,8 @@ class GUI(controller: Controller) extends JFXApp3 with Observer {
         if (borderPane == null) 
           return
 
-        val grid = GUIrenderer.render(controller.gameManager.grid)
+        val grid = GUIrenderer.render(controller.gameManager.grid, controller.gameManager.current,
+         rootPane.getWidth(), rootPane.getHeight())
         borderPane.setCenter(grid)
       }
     })

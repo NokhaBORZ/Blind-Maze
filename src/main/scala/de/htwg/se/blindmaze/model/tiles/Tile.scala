@@ -13,7 +13,7 @@ case class Chest(item : IItem)
 sealed trait TileContent
 object TileContent {
   case object Empty extends TileContent
-  case object Wall extends TileContent
+  case class Wall(visible: Boolean) extends TileContent
   case class Player(val id: Int) extends TileContent
   case object Victory extends TileContent
   case object OutOfBounds extends TileContent
@@ -56,7 +56,7 @@ case class Tile(content: TileContent) {
     <tile>
       {content match {
         case TileContent.Empty => <empty/>
-        case TileContent.Wall => <wall/>
+        case TileContent.Wall(visible) => <wall>{visible}</wall>
         case TileContent.Player(id) => <player>{id}</player>
         case TileContent.Victory => <victory/>
         case TileContent.OutOfBounds => <outOfBounds/>
@@ -70,7 +70,7 @@ case class Tile(content: TileContent) {
     Json.obj(
       "content" -> (content match {
         case TileContent.Empty => Json.toJson("empty")
-        case TileContent.Wall => Json.toJson("wall")
+        case TileContent.Wall(visible) => Json.obj("wall" -> Json.obj("visible" -> visible))
         case TileContent.Player(id) => Json.obj("player" -> Json.obj("id" -> id))
         case TileContent.Victory => Json.toJson("victory")
         case TileContent.OutOfBounds => Json.toJson("outOfBounds")
@@ -85,7 +85,7 @@ object Tile {
   def fromXml(node: scala.xml.Node): Tile = {
     val content = (node \ "_").headOption match {
       case Some(<empty/>) => TileContent.Empty
-      case Some(<wall/>) => TileContent.Wall
+      case Some(<wall>{v}</wall>) => TileContent.Wall(visible = v.text.toBoolean)
       case Some(<player>{id}</player>) => TileContent.Player(id.text.toInt)
       case Some(<victory/>) => TileContent.Victory
       case Some(<outOfBounds/>) => TileContent.OutOfBounds

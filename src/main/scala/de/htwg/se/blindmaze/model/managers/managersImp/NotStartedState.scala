@@ -16,7 +16,7 @@ case class NotStartedState(
   ) 
   extends IGameManager {
   override def startGame: IGameManager = {
-    RunningState(Generator.generateGrid(11), current)
+    RunningState(Generator.generateGrid(21), current)
   }
   override def quitGame: IGameManager = this
    

@@ -20,7 +20,7 @@ object Generator {
     
     // Fill the grid with walls
     for (x <- 0 until size; y <- 0 until size) {
-      grid = grid.set(Position(x, y), Tile(TileContent.Wall))
+      grid = grid.set(Position(x, y), Tile(TileContent.Wall(visible = false)))
     }
 
     // Generate the maze
@@ -48,7 +48,7 @@ object Generator {
     // Add some random empty spaces
     grid = addRandomEmptySpaces(grid)
 
-    println("Generated grid:\n" + grid.showGrid())
+    println("Generated grid:\n")
     grid
   }
 
@@ -109,7 +109,7 @@ object Generator {
         current = Position(current.x, current.y + dy.sign)
       }
 
-      if (updatedGrid.get(current).content == TileContent.Wall) {
+      if (updatedGrid.get(current).content == TileContent.Wall(visible = false)) {
         updatedGrid = updatedGrid.set(current, Tile(TileContent.Empty))
       }
     }
