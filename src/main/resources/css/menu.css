@@ -44,7 +44,7 @@ Button:pressed {
 }
 
 .background {
-    -fx-background-image: url('../image/background2.png');
+    -fx-background-image: url('../image/backgroundmain.png');
     -fx-background-position: center;
     -fx-background-size: auto;
     -fx-background-repeat: no-repeat;
