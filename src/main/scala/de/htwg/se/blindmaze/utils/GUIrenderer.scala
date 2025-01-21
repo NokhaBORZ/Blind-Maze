@@ -10,6 +10,7 @@ import scalafx.stage.Stage
 import scalafx.geometry.Pos
 import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.VBox
+import scalafx.geometry.Insets
 
 
 import de.htwg.se.blindmaze.model.grid.IGrid
@@ -71,10 +72,10 @@ object GUIrenderer {
   }
 
   def renderWinner(player: Int): VBox = {
-    new VBox  {
+    new VBox {
+      padding = Insets(0, 0, 0, 20)
       stylesheets.add(getClass.getResource("/css/menu.css").toExternalForm)
-      alignment = Pos.Center
-      style = "-fx-background-color: #333333;"
+      alignment = Pos.CENTER_LEFT
       children = Seq(
         new Text(s"Player $player wins!") {
           font = Font(40)

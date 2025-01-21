@@ -28,10 +28,16 @@ case class RunningState(
     copy(grid.createGrid(List(injector.instance[IPlayer](Names.named("1")), injector.instance[IPlayer](Names.named("2")))), current)
   }
 
-  override def moveNext(direction: Direction): IGameManager = {
+  override def moveNext(direction: Direction, playerId: Int): IGameManager = {
+
+    if (current != playerId) {
+        return this
+    }
+
     // Logic for moving player
     if (!grid.canMove(current, direction)) {
         AudioManager.playSound("collision")
+        return this
     }
 
     val newGrid = grid.movePlayer(current, direction)
@@ -46,7 +52,7 @@ case class RunningState(
         case Some(position) if grid.get(position).content == TileContent.Victory =>
             println(s"Player $current wins!")
             AudioManager.playSound("victory")
-            return FinishedState(newGrid, current)
+            return FinishedState(newGrid.showAllWalls(), current)
             
         case _ => // Continue if no victory
     }

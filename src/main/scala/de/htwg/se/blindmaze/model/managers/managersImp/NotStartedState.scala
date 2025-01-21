@@ -22,7 +22,7 @@ case class NotStartedState(
    
   override def resetGame: IGameManager = this
   
-  override def moveNext(direction: Direction): IGameManager = this
+  override def moveNext(direction: Direction, playerId: Int): IGameManager = this
   override def showGrid: String = "Game not running"
   override def state: GameState = GameState.NotStarted
 

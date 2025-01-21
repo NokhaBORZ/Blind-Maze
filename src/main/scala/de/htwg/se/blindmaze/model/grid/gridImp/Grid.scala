@@ -78,12 +78,23 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
       val targetTile = get(newPosition)
       targetTile.content match {
         case TileContent.OutOfBounds => false
-        case TileContent.Wall(_) => false
         case _ => true
       }
     } else {
       false
     }
+  }
+
+  def showAllWalls(): Grid = {
+    val updatedTiles = tiles.map { row =>
+      row.map { tile =>
+        tile.content match {
+          case TileContent.Wall(_) => Tile(TileContent.Wall(visible = true))
+          case _ => tile
+        }
+      }
+    }
+    copy(updatedTiles)
   }
 
   def getPlayer(player: IPlayer): Option[Position] = {

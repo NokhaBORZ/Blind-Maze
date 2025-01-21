@@ -25,13 +25,17 @@ class TUI (controller: Controller) extends Observer {
     val command: ICommand = input match {
       case "q" => QuitGameCommand()
       case "n" => StartGameCommand()
-      case "w" => MoveCommand(Direction.Up)
-      case "s" => MoveCommand(Direction.Down)
-      case "a" => MoveCommand(Direction.Left)
-      case "d" => MoveCommand(Direction.Right)
+      case "w" => MoveCommand(Direction.Up, 1)
+      case "s" => MoveCommand(Direction.Down, 1)
+      case "a" => MoveCommand(Direction.Left, 1)
+      case "d" => MoveCommand(Direction.Right, 1)
+      case "i" => MoveCommand(Direction.Up, 2)
+      case "l" => MoveCommand(Direction.Right, 2)
+      case "k" => MoveCommand(Direction.Down, 2)
+      case "j" => MoveCommand(Direction.Left, 2)
       case "u" => UndoCommand()
-      case "k" => SaveCommand()
-      case "l" => LoadCommand()
+      case "save" => SaveCommand()
+      case "load" => LoadCommand()
       case _ => new InvalidCommand
     }
     controller.executeCommand(command)

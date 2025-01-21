@@ -29,9 +29,9 @@ trait ICommand {
   val loader: IFileIO = injector.instance[IFileIO](Names.named("Json"))
 }
 
-case class MoveCommand(direction: Direction) extends ICommand {
+case class MoveCommand(direction: Direction, playerId: Int) extends ICommand {
   override def execute(gameManager: IGameManager): (Try[IGameManager], GameEvent) = {
-    val newGameManager = gameManager.moveNext(direction)
+    val newGameManager = gameManager.moveNext(direction, playerId)
     val event = if (newGameManager.state == GameState.Finished) {
       GameEvent.OnPlayerWinEvent(newGameManager.current)
     } else {
@@ -41,7 +41,7 @@ case class MoveCommand(direction: Direction) extends ICommand {
   }
 
   override def undo(gameManager: IGameManager): (Try[IGameManager], GameEvent) = {
-      (Try(gameManager.changeCurrent.moveNext(Direction.opposite(direction))), GameEvent.OnUndoEvent)
+      (Try(gameManager.changeCurrent.moveNext(Direction.opposite(direction), playerId)), GameEvent.OnUndoEvent)
   }
 }
 

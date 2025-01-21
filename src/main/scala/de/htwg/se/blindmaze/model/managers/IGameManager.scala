@@ -22,7 +22,7 @@ trait  IGameManager {
   val current: Int
   def startGame:  IGameManager
   def quitGame: IGameManager
-  def moveNext(direction: Direction): IGameManager
+  def moveNext(direction: Direction, player: Int): IGameManager
   def invalidCommand: IGameManager
   def showGrid: String
   def resetGame: IGameManager

@@ -19,7 +19,7 @@ case class FinishedState(
   override def startGame: IGameManager = this
   override def quitGame: IGameManager = NotStartedState(injector.instance[IGrid])
   override def resetGame: IGameManager = RunningState(grid.createGrid(List(injector.instance[IPlayer](Names.named("1")), injector.instance[IPlayer](Names.named("2")))))
-  override def moveNext(direction: Direction): IGameManager = this
+  override def moveNext(direction: Direction, playerId: Int): IGameManager = this
   override def showGrid: String = grid.showGrid()
   override def state: GameState = GameState.Finished
   override def invalidCommand: IGameManager = this
