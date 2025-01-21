@@ -4,13 +4,13 @@ lazy val root = project
   .in(file("."))
   .settings(
     name := "Blind Maze",
-    version := "0.1.1-SNAPSHOT",
+    version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries
       lazy val osName = System.getProperty("os.name") match {
         case n if n.startsWith("Linux")   => "linux"
-        case n if n.startsWith("Mac")     => "mac-aarch64"
+        case n if n.startsWith("Mac")     => "mac"
         case n if n.startsWith("Windows") => "win"
         case _ => throw new Exception("Unknown platform!")
       }
@@ -26,9 +26,19 @@ lazy val root = project
         "net.codingwell" %% "scala-guice" % "7.0.0",
         "org.playframework" %% "play-json" % "3.0.4",
         "org.scala-lang.modules" %% "scala-xml" % "2.3.0",
+        "com.spotify" % "docker-client" % "8.16.0"
         ) ++ Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
-        .map(m => "org.openjfx" % s"javafx-$m" % "22" classifier osName)
+        .map(m => "org.openjfx" % s"javafx-$m" % "23" classifier osName)
         
     },
-    fork := true
+    fork := true,
+    assembly / assemblyJarName := "BlindMaze.jar", // Name of the JAR file
+    assembly / test := {}, // Prevent running tests during assembly
+    assembly / assemblyMergeStrategy := { // Merge strategy for assembly
+      case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+      case x                             => MergeStrategy.first
+    }
   )
+
+enablePlugins(AssemblyPlugin)
+Compile / mainClass := Some("de.htwg.se.blindmaze.Main")
