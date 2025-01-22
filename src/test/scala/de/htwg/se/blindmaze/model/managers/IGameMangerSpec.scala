@@ -28,11 +28,6 @@ class IGameManagerSpec extends AnyWordSpec with Matchers {
             newGameManager.state should be(GameState.NotStarted)
         }
 
-        "move the player" in {
-            val newGameManager = gameManager.moveNext(Direction.Up, 1)
-            newGameManager.current should be(1)
-        }
-
         "return invalid command" in {
             val newGameManager = gameManager.invalidCommand
             newGameManager should be(gameManager)

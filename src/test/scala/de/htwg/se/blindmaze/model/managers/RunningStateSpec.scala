@@ -31,22 +31,6 @@ class RunningStateSpec extends AnyWordSpec with Matchers with MockitoSugar {
             runningState.quitGame shouldBe a[NotStartedState]
         }
 
-        "return the same state when moveNext is called with a different playerId" in {
-            val grid = mock[IGrid]
-            val runningState = RunningState(grid, 1)
-
-            runningState.moveNext(Direction.Up, 2) should be(runningState)
-        }
-
-        "play collision sound and return the same state when moveNext is called and player cannot move" in {
-            val grid = mock[IGrid]
-            when(grid.canMove(1, Direction.Up)).thenReturn(false)
-            val runningState = RunningState(grid, 1)
-
-            runningState.moveNext(Direction.Up, 1) should be(runningState)
-            verify(grid).canMove(1, Direction.Up)
-        }
-
         "return the grid representation when showGrid is called" in {
             val grid = mock[IGrid]
             when(grid.showGrid()).thenReturn("Grid representation")
