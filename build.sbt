@@ -28,7 +28,7 @@ lazy val root = project
         "org.scala-lang.modules" %% "scala-xml" % "2.3.0",
         "com.spotify" % "docker-client" % "8.16.0"
         ) ++ Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
-        .map(m => "org.openjfx" % s"javafx-$m" % "23" classifier osName)
+        .map(m => "org.openjfx" % s"javafx-$m" % "17" classifier osName)
         
     },
     fork := true,
