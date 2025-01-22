@@ -1,4 +1,4 @@
-package de.htwg.se.blindmaze.model
+package de.htwg.se.blindmaze.utils
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec

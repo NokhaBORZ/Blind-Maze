@@ -113,14 +113,6 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
     TUIrenderer.render(this)
   }
 
-  def hasPlayerReachedVictory(playerId: Int): Boolean = {
-    tiles.flatten.exists(tile => 
-      tile.content match {
-        case TileContent.Player(id) if id == playerId => true
-        case TileContent.Victory => true
-        case _ => false
-      }
-    )
-  }
+  
 }
 

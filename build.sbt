@@ -42,3 +42,6 @@ lazy val root = project
 
 enablePlugins(AssemblyPlugin)
 Compile / mainClass := Some("de.htwg.se.blindmaze.Main")
+
+coverageEnabled := true
+coverageExcludedFiles := ".*(GUI|KeyController|ButtonController|GuiRenderer).*"

@@ -1,4 +1,4 @@
-package utils
+package de.htwg.se.blindmaze.utils
 
 import com.google.inject.Guice
 import com.google.inject.name.Names

@@ -18,7 +18,6 @@ trait IGrid {
     def inBounds(position: Position): Boolean
     def showAllWalls(): IGrid
     def showGrid(): String
-    def hasPlayerReachedVictory(playerId: Int): Boolean
     def toXml: scala.xml.Node = {
         <grid size={size.toString}>
             {for {
