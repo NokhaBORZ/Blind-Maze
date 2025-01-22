@@ -10,6 +10,7 @@ import scalafx.stage.Stage
 import scalafx.geometry.Pos
 import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.VBox
+import scalafx.geometry.Insets
 
 
 import de.htwg.se.blindmaze.model.grid.IGrid
@@ -20,20 +21,25 @@ object GUIrenderer {
 
   private val tileSize = 80 // Adjusted size of each tile in pixels
 
-  def render(grid: IGrid): GridPane = {
+  def render(grid: IGrid, current: Int, parentWidth: Double, parentHeight: Double): GridPane = {
+    // Calculate the size of each tile based on the parent dimensions with padding
+    val padding = 30
+    val tileSize = Math.min((parentWidth - padding * 2) / grid.size, (parentHeight - padding * 2) / grid.size)
+
     // Create a GridPane to hold the tiles
     val gridPane = new GridPane()
+    gridPane.setPadding(new javafx.geometry.Insets(padding))
 
     for (y <- 0 until grid.size; x <- 0 until grid.size) {
       val tile = grid.get(Position(x, y))
-      val tilePane = renderTile(tile)
+      val tilePane = renderTile(tile, current, tileSize)
       gridPane.add(tilePane, x, y)
     }
 
     gridPane
   }
 
-  private def renderTile(tile: Tile): Pane = {
+  private def renderTile(tile: Tile, current: Int, tileSize: Double): Pane = {
     val pane = new StackPane()
 
     // Background rectangle for the tile with rounded corners and dark background
@@ -42,8 +48,8 @@ object GUIrenderer {
       height = tileSize
       fill = tile.content match {
         case TileContent.Empty => Color.web("#333333")
-        case TileContent.Wall => Color.web("#555555")
-        case TileContent.Player(_) => Color.web("#0077FF")
+        case TileContent.Wall(visible) => if (visible) Color.web("#555555") else Color.web("#333333")
+        case TileContent.Player(id) => if (id == current) Color.web("#FF5733") else Color.web("#2E86C1")
         case TileContent.Victory => Color.web("#00FF00")
         case TileContent.OutOfBounds => Color.web("#000000")
         case TileContent.Trap => Color.web("#FF0000")
@@ -65,19 +71,20 @@ object GUIrenderer {
     pane
   }
 
-  def renderWinner(player: Int): StackPane = {
-    new StackPane  {
-      val winnerText = new Text(s"Player $player wins!") {
-        font = Font(40)
-      }
-
-      val button = new Button("Close") {
-        onAction = _ => System.exit(0) // Exit the application
-      }
-
-      val vbox = new VBox(20, winnerText, button) {
-        alignment = Pos.Center
-      }
+  def renderWinner(player: Int): VBox = {
+    new VBox {
+      padding = Insets(0, 0, 0, 20)
+      stylesheets.add(getClass.getResource("/css/menu.css").toExternalForm)
+      alignment = Pos.CENTER_LEFT
+      children = Seq(
+        new Text(s"Player $player wins!") {
+          font = Font(40)
+          spacing = 20
+        },
+        new Button("Leave") {
+          onAction = _ => System.exit(0) // Exit the application
+        }
+      )
     }
   }
 }

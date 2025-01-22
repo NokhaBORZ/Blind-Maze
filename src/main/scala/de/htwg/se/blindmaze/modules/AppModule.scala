@@ -31,18 +31,33 @@ class AppModule extends AbstractModule {
     bind(classOf[item.IItem]).annotatedWith(Names.named("Inventory")).toProvider(() =>
       new item.ItemsImp.Inventory("Inventory")
     )
-    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveUp")).toProvider(() =>
-      new commands.MoveCommand(Direction.Up)
+    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveUp1")).toProvider(() =>
+      new commands.MoveCommand(Direction.Up, 1)
     )
-    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveDown")).toProvider(() =>
-      new commands.MoveCommand(Direction.Down)
+    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveDown1")).toProvider(() =>
+      new commands.MoveCommand(Direction.Down, 1)
     )
-    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveLeft")).toProvider(() =>
-      new commands.MoveCommand(Direction.Left)
+    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveLeft1")).toProvider(() =>
+      new commands.MoveCommand(Direction.Left, 1)
     )
-    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveRight")).toProvider(() =>
-      new commands.MoveCommand(Direction.Right)
+    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveRight1")).toProvider(() =>
+      new commands.MoveCommand(Direction.Right, 1)
     )
+
+    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveUp2")).toProvider(() =>
+      new commands.MoveCommand(Direction.Up, 2)
+    )
+    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveDown2")).toProvider(() =>
+      new commands.MoveCommand(Direction.Down, 2)
+    )
+    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveLeft2")).toProvider(() =>
+      new commands.MoveCommand(Direction.Left, 2)
+    )
+    bind(classOf[commands.ICommand]).annotatedWith(Names.named("MoveRight2")).toProvider(() =>
+      new commands.MoveCommand(Direction.Right, 2)
+    )
+
+
     bind(classOf[commands.ICommand]).annotatedWith(Names.named("Quit")).toProvider(() =>
       new commands.QuitGameCommand()
     )

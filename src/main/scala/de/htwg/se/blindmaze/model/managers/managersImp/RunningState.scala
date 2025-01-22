@@ -6,6 +6,7 @@ import de.htwg.se.blindmaze.utils.Direction
 import de.htwg.se.blindmaze.model.managers.GameState
 import de.htwg.se.blindmaze.model.grid.IGrid
 import de.htwg.se.blindmaze.model.player.IPlayer
+import de.htwg.se.blindmaze.utils.AudioManager
 import com.google.inject.Injector
 import com.google.inject.name.Names
 import com.google.inject.Guice
@@ -27,13 +28,20 @@ case class RunningState(
     copy(grid.createGrid(List(injector.instance[IPlayer](Names.named("1")), injector.instance[IPlayer](Names.named("2")))), current)
   }
 
-  override def moveNext(direction: Direction): IGameManager = {
+  override def moveNext(direction: Direction, playerId: Int): IGameManager = {
+
+    if (current != playerId) {
+        return this
+    }
+
     // Logic for moving player
     if (!grid.canMove(current, direction)) {
+        AudioManager.playSound("collision")
         return this
     }
 
     val newGrid = grid.movePlayer(current, direction)
+    AudioManager.playSound("move")
 
     // Check if the player reaches the VictoryTile after moving
     val player = injector.instance[IPlayer](Names.named(current.toString))
@@ -43,7 +51,8 @@ case class RunningState(
     playerPosition match {
         case Some(position) if grid.get(position).content == TileContent.Victory =>
             println(s"Player $current wins!")
-            return FinishedState(newGrid, current)
+            AudioManager.playSound("victory")
+            return FinishedState(newGrid.showAllWalls(), current)
             
         case _ => // Continue if no victory
     }

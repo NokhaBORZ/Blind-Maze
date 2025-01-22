@@ -16,7 +16,7 @@ object TileFactory {
 
   def getTile(content: TileContent): Tile = content match {
     case TileContent.Empty => TileCache.EmptyTile
-    case TileContent.Wall => TileCache.WallTile
+    case TileContent.Wall(visible) => if (visible) TileCache.visibleWallTile else TileCache.WallTile
     case TileContent.Victory => TileCache.VictoryTile
     case TileContent.Trap => TileCache.TrapTile
     case TileContent.Player(id) =>

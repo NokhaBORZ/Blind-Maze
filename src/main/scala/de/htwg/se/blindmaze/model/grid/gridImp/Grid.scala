@@ -57,6 +57,8 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
         case TileContent.Empty | TileContent.Victory =>
           set(playerPosition, Tile(TileContent.Empty))
             .set(newPosition, Tile(TileContent.Player(playerId)))
+        case TileContent.Wall(false) =>
+          set(newPosition, Tile(TileContent.Wall(true)))
         case _ =>
           this
       }
@@ -76,12 +78,23 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
       val targetTile = get(newPosition)
       targetTile.content match {
         case TileContent.OutOfBounds => false
-        case TileContent.Wall => false
         case _ => true
       }
     } else {
       false
     }
+  }
+
+  def showAllWalls(): Grid = {
+    val updatedTiles = tiles.map { row =>
+      row.map { tile =>
+        tile.content match {
+          case TileContent.Wall(_) => Tile(TileContent.Wall(visible = true))
+          case _ => tile
+        }
+      }
+    }
+    copy(updatedTiles)
   }
 
   def getPlayer(player: IPlayer): Option[Position] = {
@@ -100,14 +113,6 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
     TUIrenderer.render(this)
   }
 
-  def hasPlayerReachedVictory(playerId: Int): Boolean = {
-    tiles.flatten.exists(tile => 
-      tile.content match {
-        case TileContent.Player(id) if id == playerId => true
-        case TileContent.Victory => true
-        case _ => false
-      }
-    )
-  }
+  
 }
 
