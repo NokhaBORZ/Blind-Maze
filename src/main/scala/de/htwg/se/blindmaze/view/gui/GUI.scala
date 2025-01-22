@@ -73,7 +73,7 @@ class GUI(controller: Controller) extends JFXApp3 with Observer {
   def showGrid(): Unit = {
     Platform.runLater(new Runnable {
       override def run(): Unit = {
-        val borderPane = rootPane.getChildren().getFirst().asInstanceOf[BorderPane]
+        val borderPane = rootPane.getChildren().get(0).asInstanceOf[BorderPane]
         if (borderPane == null) 
           return
 
