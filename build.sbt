@@ -32,6 +32,7 @@ lazy val root = project
         
     },
     fork := true,
+    connectInput := true,
     assembly / assemblyJarName := "BlindMaze.jar", // Name of the JAR file
     assembly / test := {}, // Prevent running tests during assembly
     assembly / assemblyMergeStrategy := { // Merge strategy for assembly
