@@ -5,7 +5,9 @@ import com.google.inject.name.Names
 import net.codingwell.scalaguice.InjectorExtensions._
 
 import de.htwg.se.blindmaze.modules.AppModule
-import de.htwg.se.blindmaze.model.tiles.{Tile, TileContent}
+import de.htwg.se.blindmaze.model.tiles.{Tile, TileContent, Chest}
+import de.htwg.se.blindmaze.model.item.IItem
+import de.htwg.se.blindmaze.model.item.ItemsImp.{Lantern, Lightning}
 import de.htwg.se.blindmaze.utils.Position
 import de.htwg.se.blindmaze.model.grid.IGrid
 import de.htwg.se.blindmaze.model.grid.gridImp.Grid
@@ -48,8 +50,56 @@ object Generator {
     // Add some random empty spaces
     grid = addRandomEmptySpaces(grid)
 
+    // Spawn chests with random items
+    grid = spawnChests(grid, 3)
+
     println("Generated grid:\n")
     grid
+  }
+
+  /**
+   * Spawns chests with random items on empty tiles.
+   * @param grid The current grid
+   * @param count Number of chests to spawn
+   * @return Updated grid with chests
+   */
+  private def spawnChests(grid: IGrid, count: Int): IGrid = {
+    var updatedGrid = grid
+    val size = grid.size
+    var chestsPlaced = 0
+    var attempts = 0
+    val maxAttempts = count * 10 // Prevent infinite loop
+
+    while (chestsPlaced < count && attempts < maxAttempts) {
+      val x = random.nextInt(size)
+      val y = random.nextInt(size)
+      val pos = Position(x, y)
+      
+      // Only place on empty tiles (not player spawn, victory, or walls)
+      if (updatedGrid.get(pos).content == TileContent.Empty) {
+        val item = createRandomItem()
+        updatedGrid = updatedGrid.set(pos, Tile(TileContent.ChestTile(Chest(item))))
+        chestsPlaced += 1
+      }
+      attempts += 1
+    }
+
+    updatedGrid
+  }
+
+  /**
+   * Creates a random item weighted by rarity.
+   * Common items are more likely to appear.
+   */
+  private def createRandomItem(): IItem = {
+    val roll = random.nextInt(100)
+    if (roll < 70) {
+      // 70% chance for Common (Lantern)
+      Lantern("Lantern")
+    } else {
+      // 30% chance for Rare (Lightning)
+      Lightning("Lightning")
+    }
   }
 
   private def generateMaze(grid: IGrid, start: Position): IGrid = {
