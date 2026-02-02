@@ -78,5 +78,18 @@ case class LoadCommand() extends ICommand {
   }
 }
 
+case class UseItemCommand(playerId: Int) extends ICommand {
+  override def execute(gameManager: IGameManager): (Try[IGameManager], GameEvent) = {
+    import de.htwg.se.blindmaze.model.managers.managersImp.RunningState
+    gameManager match {
+      case running: RunningState if running.current == playerId =>
+        val newState = running.useItem()
+        (Try(newState), GameEvent.OnItemUseEvent)
+      case _ =>
+        (Try(gameManager), GameEvent.OnErrorEvent("Cannot use item now"))
+    }
+  }
+}
+
 case class UndoCommand() extends ICommand {
 }

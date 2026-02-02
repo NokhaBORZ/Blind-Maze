@@ -13,6 +13,7 @@ enum GameEvent:
 
   // Items
   case OnItemsCollectionEvent(player: IPlayer)
+  case OnItemUseEvent
 
 
   // End Game Events

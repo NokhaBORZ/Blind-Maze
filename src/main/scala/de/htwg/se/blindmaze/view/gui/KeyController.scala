@@ -34,6 +34,10 @@ class KeyController(buttonController: ButtonController) {
                 sendCommand(SaveCommand())
             case KeyCode.L =>
                 sendCommand(LoadCommand())
+            case KeyCode.E =>
+                sendCommand(UseItemCommand(1))
+            case KeyCode.O =>
+                sendCommand(UseItemCommand(2))
             case _ => 
         }
     }
