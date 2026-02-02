@@ -42,6 +42,8 @@ class GUI(controller: Controller) extends JFXApp3 with Observer {
       case GameEvent.OnPlayerWinEvent(p) =>
         showGrid()
         showWinnerPanel(p)
+      case GameEvent.OnItemUseEvent =>
+        showGrid() // Refresh grid to show revealed walls
       case _ =>
       }
     })
