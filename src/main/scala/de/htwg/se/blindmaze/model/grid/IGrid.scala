@@ -17,6 +17,7 @@ trait IGrid {
     def getPlayer(player: IPlayer): Option[Position]
     def inBounds(position: Position): Boolean
     def showAllWalls(): IGrid
+    def revealWallsAround(position: Position, radius: Int): IGrid
     def showGrid(): String
     def toXml: scala.xml.Node = {
         <grid size={size.toString}>

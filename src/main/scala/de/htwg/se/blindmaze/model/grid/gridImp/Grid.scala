@@ -97,6 +97,24 @@ case class Grid @Inject()(tiles: Vector[Vector[Tile]]) extends IGrid {
     copy(updatedTiles)
   }
 
+  def revealWallsAround(position: Position, radius: Int): Grid = {
+    var updatedGrid = this
+    for {
+      dx <- -radius to radius
+      dy <- -radius to radius
+    } {
+      val targetPos = Position(position.x + dx, position.y + dy)
+      if (inBounds(targetPos)) {
+        get(targetPos).content match {
+          case TileContent.Wall(false) =>
+            updatedGrid = updatedGrid.set(targetPos, Tile(TileContent.Wall(visible = true)))
+          case _ => // Do nothing for other tiles
+        }
+      }
+    }
+    updatedGrid
+  }
+
   def getPlayer(player: IPlayer): Option[Position] = {
     tiles.zipWithIndex.flatMap { case (row, y) =>
       row.zipWithIndex.collect {
